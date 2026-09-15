@@ -1,6 +1,7 @@
 # Flutter — Per-Feature Plans
 
 **Date:** 2026-09-15
+**Status:** Section 12's "this week" list is **done** — see §14.
 **Companion to:** `phase-7-plan.md` (sequencing and blockers) and
 `impact-report-backend-integration.md` (system-wide analysis).
 
@@ -407,3 +408,33 @@ contract work before any UI: **category filter**, **map coordinates**, and
 
 **The most productive Flutter week available right now is §12's "this week"
 list.** Everything else needs a decision from someone else first.
+
+---
+
+## 14. Done since this plan was written
+
+All five unblocked tasks from §12 are implemented, committed, and verified on
+both platforms. The suite is **275 tests green**, the analyzer clean.
+
+| Task | What landed |
+| --- | --- |
+| **App identity** (§11) | `app.tazkerah.mobile` on both platforms, verified in the built APK. The one-way door is closed |
+| **Notifications** (§9) | Reminder planning, reconciliation, boot receiver, permissions, sign-out clearing — 21 tests |
+| **Capture handling** (§7) | `FLAG_SECURE` on Android, screenshot and recording reports on iOS — 10 tests |
+| **Screen brightness** (§7) | Raised only when a code is on display, dropped on capture and dispose — 6 tests |
+| **Certificate pinning** (§11) | SPKI pinning on the Dio adapter, with the DER walk verified against OpenSSL — 13 tests |
+
+Three notes worth carrying forward:
+
+1. **`screen_protector` does not build on this toolchain.** On AGP 9 it skips
+   `kotlin-android` without adding `src/main/kotlin` to the Kotlin source set,
+   so its plugin class never compiles. `no_screenshot` replaced it.
+2. **Certificate pins are not configured**, because `api.tazkerah.app` does not
+   resolve. The mechanism is complete and tested; it needs the hash once the
+   domain exists. A production build without pins now fails an assert rather
+   than running unpinned in silence.
+3. **Wallet passes (§10) were not started** — they still need the v1 scope
+   decision, and the Apple pass-type certificate is the long pole.
+
+What remains for mobile is all in §12's other two lists: the blocked
+integrations, and the decisions to chase.
