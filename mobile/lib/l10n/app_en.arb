@@ -1,0 +1,1320 @@
+{
+  "@@locale": "en",
+  "appTitle": "Tazkerah",
+  "@appTitle": {
+    "description": "Application name, shown in the task switcher and app bar."
+  },
+  "commonRetry": "Retry",
+  "@commonRetry": {
+    "description": "Label for the button that re-runs a failed operation."
+  },
+  "commonCancel": "Cancel",
+  "@commonCancel": {
+    "description": "Label for the button that dismisses an action."
+  },
+  "commonOk": "OK",
+  "@commonOk": {
+    "description": "Label for the button that acknowledges a message."
+  },
+  "errorNetwork": "No internet connection. Check your network and try again.",
+  "@errorNetwork": {
+    "description": "Shown when the device cannot reach the server at all."
+  },
+  "errorTimeout": "The request took too long. Please try again.",
+  "@errorTimeout": {
+    "description": "Shown when a request exceeds its time budget."
+  },
+  "errorServer": "Something went wrong on our end. Please try again shortly.",
+  "@errorServer": {
+    "description": "Shown for HTTP 5xx responses."
+  },
+  "errorUnauthorized": "Your session has expired. Please sign in again.",
+  "@errorUnauthorized": {
+    "description": "Shown when authentication is missing, invalid, or expired."
+  },
+  "errorUnexpected": "An unexpected error occurred.",
+  "@errorUnexpected": {
+    "description": "Fallback for errors with no more specific message."
+  },
+  "stateEmptyTitle": "Nothing here yet",
+  "@stateEmptyTitle": {
+    "description": "Heading for a screen with no content to display."
+  },
+  "stateOfflineBanner": "You are offline. Showing saved data.",
+  "@stateOfflineBanner": {
+    "description": "Banner shown when the app is serving cached content."
+  },
+  "settingsLanguage": "Language",
+  "@settingsLanguage": {
+    "description": "Row label for choosing the app language."
+  },
+  "settingsThemeSystem": "System default",
+  "@settingsThemeSystem": {
+    "description": "Theme option that follows the OS light/dark setting."
+  },
+  "settingsThemeLight": "Light",
+  "@settingsThemeLight": {
+    "description": "Theme option forcing the light palette."
+  },
+  "settingsThemeDark": "Dark",
+  "@settingsThemeDark": {
+    "description": "Theme option forcing the dark palette."
+  },
+  "appTitleLatin": "Tazkerah",
+  "@appTitleLatin": {
+    "description": "The Latin wordmark. Stays Latin in every locale — it is half of the logo lockup, paired with the Arabic form, not translated copy."
+  },
+  "authBrandNameArabic": "تذكرة",
+  "@authBrandNameArabic": {
+    "description": "The Arabic wordmark shown beside the Latin 'Tazkerah' on the auth screen. Stays Arabic in every locale — it is part of the logo lockup, not translated copy."
+  },
+  "authTagline": "Access your secure digital passes and encrypted gate entry.",
+  "@authTagline": {
+    "description": "Subtitle under the brand name on the sign-in screen."
+  },
+  "authIdentifierLabel": "EMAIL OR PHONE",
+  "@authIdentifierLabel": {
+    "description": "Uppercase field label above the sign-in input."
+  },
+  "authIdentifierHint": "name@domain.com or +966...",
+  "@authIdentifierHint": {
+    "description": "Placeholder inside the email-or-phone field."
+  },
+  "authContinue": "Continue",
+  "@authContinue": {
+    "description": "Primary button that submits the email or phone number."
+  },
+  "authOfflineBadge": "Offline — Network connection required",
+  "@authOfflineBadge": {
+    "description": "Inline badge under the tagline when the device has no connection."
+  },
+  "authOfflineExplanation": "Network unavailable. An active internet connection is required to authenticate your identity and issue encrypted gate passes.",
+  "@authOfflineExplanation": {
+    "description": "Paragraph explaining why sign-in is unavailable offline."
+  },
+  "authCheckConnection": "Check connection",
+  "@authCheckConnection": {
+    "description": "Link that retries the connectivity check."
+  },
+  "authIdentifierRequired": "Enter your email or phone number.",
+  "@authIdentifierRequired": {
+    "description": "Validation message when the sign-in field is left empty."
+  },
+  "authIdentifierInvalid": "Enter a valid email address or phone number.",
+  "@authIdentifierInvalid": {
+    "description": "Validation message when the entered identifier is neither a valid email nor a valid phone number."
+  },
+  "legalTerms": "Terms of Service",
+  "@legalTerms": {
+    "description": "Footer link to the terms of service."
+  },
+  "legalPrivacy": "Privacy Policy",
+  "@legalPrivacy": {
+    "description": "Footer link to the privacy policy."
+  },
+  "eventsEyebrow": "EXCLUSIVE GATE ENTRIES",
+  "@eventsEyebrow": {
+    "description": "Uppercase mono label above the event list heading. Passed through as written, so translations supply their own casing."
+  },
+  "eventsLivePasses": "LIVE PASSES",
+  "@eventsLivePasses": {
+    "description": "Status pill beside the event list heading, shown when the feed is live."
+  },
+  "navEvents": "Events",
+  "@navEvents": {
+    "description": "Bottom navigation label for the event discovery tab."
+  },
+  "navTickets": "Tickets",
+  "@navTickets": {
+    "description": "Bottom navigation label for the user's ticket wallet tab."
+  },
+  "navConcierge": "Concierge",
+  "@navConcierge": {
+    "description": "Bottom navigation label for the AI assistant tab."
+  },
+  "navProfile": "Profile",
+  "@navProfile": {
+    "description": "Bottom navigation label for the account tab."
+  },
+  "routeNotFoundTitle": "Page not found",
+  "@routeNotFoundTitle": {
+    "description": "Title shown when a deep link points at an unknown route."
+  },
+  "routeNotFoundMessage": "The link you followed does not lead anywhere.",
+  "@routeNotFoundMessage": {
+    "description": "Body text shown when a deep link points at an unknown route."
+  },
+  "routeGoHome": "Go to home",
+  "@routeGoHome": {
+    "description": "Button that returns the user to the home screen."
+  },
+  "otpTitle": "Security code",
+  "@otpTitle": {
+    "description": "Screen heading for the code verification step."
+  },
+  "otpCodeLabel": "SECURITY CODE",
+  "@otpCodeLabel": {
+    "description": "Uppercase label above the six code boxes."
+  },
+  "otpDigitsHint": "6 digits",
+  "@otpDigitsHint": {
+    "description": "Hint at the end of the code label row, stating the expected length."
+  },
+  "otpEdit": "Edit",
+  "@otpEdit": {
+    "description": "Link that returns to the previous step to change the email or phone."
+  },
+  "otpNoCode": "Didn't receive code?",
+  "@otpNoCode": {
+    "description": "Prompt beside the resend link."
+  },
+  "otpResend": "Resend Code",
+  "@otpResend": {
+    "description": "Link that requests a new verification code."
+  },
+  "otpResendIn": "Resend in {seconds}s",
+  "@otpResendIn": {
+    "description": "Replaces the resend link while a cooldown is running. {seconds} is the remaining whole seconds.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "otpVerify": "Verify",
+  "@otpVerify": {
+    "description": "Primary button that submits the entered code."
+  },
+  "otpInvalid": "Invalid code. Try again.",
+  "@otpInvalid": {
+    "description": "Inline error under the code boxes when the server rejects the code."
+  },
+  "otpExpired": "That code expired. Request a new one.",
+  "@otpExpired": {
+    "description": "Inline error when the code is past its validity window."
+  },
+  "otpTooManyAttempts": "Too many attempts. Try again later.",
+  "@otpTooManyAttempts": {
+    "description": "Inline error when the server rate-limits verification."
+  },
+  "otpResent": "A new code is on its way.",
+  "@otpResent": {
+    "description": "Confirmation shown after a successful resend."
+  },
+  "discoveryTitle": "Select Experience",
+  "@discoveryTitle": {
+    "description": "Main heading of the event discovery screen."
+  },
+  "discoveryCacheEyebrow": "LOCAL CRYPTOGRAPHIC CACHE",
+  "@discoveryCacheEyebrow": {
+    "description": "Uppercase mono label above the heading when the feed is showing cached data. Passed through as written, so translations supply their own casing."
+  },
+  "discoverySynchronizing": "SYNCHRONIZING...",
+  "@discoverySynchronizing": {
+    "description": "Status pill beside the heading while the first page is loading."
+  },
+  "discoveryPassesReady": "{count, plural, =1{1 PASS READY} other{{count} PASSES READY}}",
+  "@discoveryPassesReady": {
+    "description": "Status pill beside the heading in the offline state, counting the cached events available.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoveryOfflineBanner": "Offline — showing cached events",
+  "@discoveryOfflineBanner": {
+    "description": "Amber banner across the top of the feed when the rows come from the local cache."
+  },
+  "discoveryLastSynchronized": "Last synchronized {duration} ago",
+  "@discoveryLastSynchronized": {
+    "description": "Footer note in the offline state. {duration} is an already-formatted span such as '14m' or '2h'.",
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryReconnect": "Reconnect",
+  "@discoveryReconnect": {
+    "description": "Footer button that retries the connection from the offline state."
+  },
+  "discoverySearchHint": "Search events, venues, cities",
+  "@discoverySearchHint": {
+    "description": "Placeholder inside the discovery search field."
+  },
+  "discoverySearchClear": "Clear search",
+  "@discoverySearchClear": {
+    "description": "Accessibility label for the button that empties the search field."
+  },
+  "discoveryPriceFrom": "FROM",
+  "@discoveryPriceFrom": {
+    "description": "Uppercase mono label above a card's starting price."
+  },
+  "discoveryPrice": "{amount} {currency}",
+  "@discoveryPrice": {
+    "description": "A card's starting price. {amount} is already formatted for the locale; {currency} is an ISO code such as SAR.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverySoldOut": "SOLD OUT",
+  "@discoverySoldOut": {
+    "description": "Tag on a card whose tickets are all gone."
+  },
+  "discoveryCachedTag": "CACHED",
+  "@discoveryCachedTag": {
+    "description": "Tag on a card served from the local cache."
+  },
+  "discoveryEmptyTitle": "No events found",
+  "@discoveryEmptyTitle": {
+    "description": "Heading when the feed returns no rows."
+  },
+  "discoveryEmptyMessage": "Nothing matches your search right now. Try a different term.",
+  "@discoveryEmptyMessage": {
+    "description": "Body text when a search returns no rows."
+  },
+  "discoveryEmptyFeedMessage": "There are no events on sale at the moment. Check back soon.",
+  "@discoveryEmptyFeedMessage": {
+    "description": "Body text when the unfiltered feed returns no rows."
+  },
+  "discoveryVenueSeparator": "{venue} • {city}",
+  "@discoveryVenueSeparator": {
+    "description": "A card's location line, joining the venue and its city.",
+    "placeholders": {
+      "venue": {
+        "type": "String"
+      },
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryEventCardLabel": "{title}, {date}, from {price}",
+  "@discoveryEventCardLabel": {
+    "description": "Accessibility label read for one event card.",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "durationMinutes": "{minutes}m",
+  "@durationMinutes": {
+    "description": "A short span in minutes, for the offline footer.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "durationHours": "{hours}h",
+  "@durationHours": {
+    "description": "A short span in hours, for the offline footer.",
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "durationDays": "{days}d",
+  "@durationDays": {
+    "description": "A short span in days, for the offline footer.",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "detailOfficialGateEntry": "OFFICIAL GATE ENTRY",
+  "@detailOfficialGateEntry": {
+    "description": "Pill over the event hero image, marking the listing as an authorised seller."
+  },
+  "detailDateTimeLabel": "DATE & TIME",
+  "@detailDateTimeLabel": {
+    "description": "Uppercase label on the date card."
+  },
+  "detailLocationLabel": "LOCATION",
+  "@detailLocationLabel": {
+    "description": "Uppercase label on the location card."
+  },
+  "detailOverviewLabel": "OVERVIEW",
+  "@detailOverviewLabel": {
+    "description": "Uppercase heading above the event description."
+  },
+  "detailGatesAt": "{time} {zone} (Gates {doors})",
+  "@detailGatesAt": {
+    "description": "The event time line. {time} and {doors} are formatted clock times; {zone} is a timezone abbreviation such as AST.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "zone": {
+        "type": "String"
+      },
+      "doors": {
+        "type": "String"
+      }
+    }
+  },
+  "detailTimeNoGates": "{time} {zone}",
+  "@detailTimeNoGates": {
+    "description": "The event time line when no separate gates time is published.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "detailStartingFrom": "STARTING FROM",
+  "@detailStartingFrom": {
+    "description": "Label above the price in the bottom action bar."
+  },
+  "detailFeesIncluded": "VAT & Gate Fees Included",
+  "@detailFeesIncluded": {
+    "description": "Note under the price in the bottom action bar."
+  },
+  "detailSelectSeats": "Select seats",
+  "@detailSelectSeats": {
+    "description": "Primary button that opens seat selection."
+  },
+  "detailSoldOut": "Sold out",
+  "@detailSoldOut": {
+    "description": "Replaces the seat-selection button when no tickets remain."
+  },
+  "detailNotOnSale": "Not yet on sale",
+  "@detailNotOnSale": {
+    "description": "Replaces the seat-selection button before tickets are released."
+  },
+  "detailAntiPassback": "Anti-passback enabled",
+  "@detailAntiPassback": {
+    "description": "Note beside the ticket security row, stating the pass cannot be re-used for re-entry by another person."
+  },
+  "detailShare": "Share event",
+  "@detailShare": {
+    "description": "Accessibility label for the share button over the hero image."
+  },
+  "detailBack": "Back",
+  "@detailBack": {
+    "description": "Accessibility label for the back button over the hero image."
+  },
+  "detailMissingTitle": "Event not available",
+  "@detailMissingTitle": {
+    "description": "Heading shown when the requested event does not exist."
+  },
+  "detailMissingMessage": "This event may have ended or the link may be out of date.",
+  "@detailMissingMessage": {
+    "description": "Body text shown when the requested event does not exist."
+  },
+  "detailBrowseEvents": "Browse events",
+  "@detailBrowseEvents": {
+    "description": "Button returning the user to the event feed from a missing event."
+  },
+  "detailSeatSelectionSoon": "Seat selection opens in the next release.",
+  "@detailSeatSelectionSoon": {
+    "description": "Temporary notice shown when seat selection is tapped, before the booking flow exists."
+  },
+  "detailShareSoon": "Sharing opens in the next release.",
+  "@detailShareSoon": {
+    "description": "Temporary notice shown when the share button is tapped, before platform sharing is wired up."
+  },
+  "errorLocked": "This section is not available for booking.",
+  "@errorLocked": {
+    "description": "Shown when the server locks a resource (HTTP 423), such as a sector withheld by the organizer."
+  },
+  "seatLegendAvailable": "Available",
+  "@seatLegendAvailable": {
+    "description": "Seat map legend entry for a seat that can be chosen."
+  },
+  "seatLegendTaken": "Taken",
+  "@seatLegendTaken": {
+    "description": "Seat map legend entry for a seat someone else holds."
+  },
+  "seatLegendConflict": "Conflict (409)",
+  "@seatLegendConflict": {
+    "description": "Seat map legend entry for the seat that just lost a reservation race."
+  },
+  "seatLegendHeld": "Held (You)",
+  "@seatLegendHeld": {
+    "description": "Seat map legend entry for a seat held by this user."
+  },
+  "seatLegendSold": "Sold",
+  "@seatLegendSold": {
+    "description": "Seat map legend entry for a sold seat."
+  },
+  "seatStage": "STAGE / PERFORMANCE",
+  "@seatStage": {
+    "description": "Label on the stage marker above the seat map."
+  },
+  "seatStagePodium": "STAGE / MAIN PODIUM",
+  "@seatStagePodium": {
+    "description": "Stage marker label used when the venue has a podium."
+  },
+  "seatTakenTag": "TAKEN",
+  "@seatTakenTag": {
+    "description": "Small tag pinned over the seat that was just taken by someone else."
+  },
+  "seatStatusLive": "Live Sync",
+  "@seatStatusLive": {
+    "description": "Header status showing the seat map is receiving live availability."
+  },
+  "seatStatusLabel": "STATUS",
+  "@seatStatusLabel": {
+    "description": "Uppercase label above the seat map's live-sync status."
+  },
+  "seatCurrentSelection": "CURRENT SELECTION",
+  "@seatCurrentSelection": {
+    "description": "Label above the currently chosen seat in the bottom bar."
+  },
+  "seatNoSelection": "No seat selected",
+  "@seatNoSelection": {
+    "description": "Shown in the bottom bar when nothing is chosen."
+  },
+  "seatSubtotal": "SUBTOTAL",
+  "@seatSubtotal": {
+    "description": "Label above the running total in the seat bottom bar."
+  },
+  "seatSelectPrompt": "Select an available seat",
+  "@seatSelectPrompt": {
+    "description": "Disabled button label prompting the user to choose a seat."
+  },
+  "seatHoldSeat": "Hold seat",
+  "@seatHoldSeat": {
+    "description": "Button that reserves the chosen seat."
+  },
+  "seatConflictEyebrow": "CONFLICT · HTTP 409",
+  "@seatConflictEyebrow": {
+    "description": "Mono eyebrow on the seat-conflict toast."
+  },
+  "seatConflictTitle": "Seat just taken — pick another",
+  "@seatConflictTitle": {
+    "description": "Headline on the seat-conflict toast."
+  },
+  "seatConflictMessage": "Another guest completed reservation for this seat milliseconds ago. Your selection has been cleared.",
+  "@seatConflictMessage": {
+    "description": "Body copy on the seat-conflict toast."
+  },
+  "seatConflictSeat": "Seat {seat}",
+  "@seatConflictSeat": {
+    "description": "Names the seat that was lost, shown on the conflict toast. {seat} is a seat id such as 'VIP · A-12'.",
+    "placeholders": {
+      "seat": {
+        "type": "String"
+      }
+    }
+  },
+  "seatLockedStatus": "HTTP 423 · LOCKED",
+  "@seatLockedStatus": {
+    "description": "Mono status pill at the top of the locked-sector sheet."
+  },
+  "seatLockedTitle": "Sector locked by organizer",
+  "@seatLockedTitle": {
+    "description": "Headline of the locked-sector sheet."
+  },
+  "seatLockedMessage": "{sector} is currently held for production allocation or artist delegation. Individual seats cannot be reserved.",
+  "@seatLockedMessage": {
+    "description": "Body copy of the locked-sector sheet. {sector} names the locked sector and its rows.",
+    "placeholders": {
+      "sector": {
+        "type": "String"
+      }
+    }
+  },
+  "seatLockedTargetLabel": "Target Sector",
+  "@seatLockedTargetLabel": {
+    "description": "Row label in the locked-sector detail table."
+  },
+  "seatLockedReasonLabel": "Lock Reason",
+  "@seatLockedReasonLabel": {
+    "description": "Row label in the locked-sector detail table."
+  },
+  "seatLockedAlternativesLabel": "Available Alternatives",
+  "@seatLockedAlternativesLabel": {
+    "description": "Row label listing sectors the user can still book."
+  },
+  "seatChooseAnotherSector": "Choose another sector",
+  "@seatChooseAnotherSector": {
+    "description": "Primary action on the locked-sector sheet."
+  },
+  "seatViewAvailableOnly": "View available sectors only",
+  "@seatViewAvailableOnly": {
+    "description": "Secondary action filtering the map to bookable sectors."
+  },
+  "seatHeldBadge": "HELD ({reference})",
+  "@seatHeldBadge": {
+    "description": "Header pill confirming a hold, with its booking reference.",
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "seatSeatsHeld": "SEATS HELD",
+  "@seatSeatsHeld": {
+    "description": "Label above the hold countdown timer."
+  },
+  "seatLockedToOrder": "LOCKED TO ORDER",
+  "@seatLockedToOrder": {
+    "description": "Tag on the sector panel showing the held seat belongs to this order."
+  },
+  "seatSelectionLockedNote": "Seat selection locked while timer is running",
+  "@seatSelectionLockedNote": {
+    "description": "Note explaining why the map is not interactive during a hold."
+  },
+  "seatAssignedSelection": "ASSIGNED SELECTION",
+  "@seatAssignedSelection": {
+    "description": "Label above the held seat in the bottom bar."
+  },
+  "seatTotalPrice": "Total Price",
+  "@seatTotalPrice": {
+    "description": "Label above the total in the held bottom bar."
+  },
+  "seatFeesNote": "Incl. VAT & Gate Access",
+  "@seatFeesNote": {
+    "description": "Note under the total price in the held bottom bar."
+  },
+  "seatContinueCheckout": "Continue to checkout",
+  "@seatContinueCheckout": {
+    "description": "Primary action once a seat is held."
+  },
+  "seatRowSeatCaption": "(Row {row}, Seat {seat})",
+  "@seatRowSeatCaption": {
+    "description": "Caption spelling out a seat id. Both values are machine identifiers.",
+    "placeholders": {
+      "row": {
+        "type": "String"
+      },
+      "seat": {
+        "type": "String"
+      }
+    }
+  },
+  "seatUnavailableInTier": "UNAVAILABLE IN THIS TIER",
+  "@seatUnavailableInTier": {
+    "description": "Tag on a context sector the current ticket tier cannot book."
+  },
+  "seatHoldExpiredTitle": "Hold expired",
+  "@seatHoldExpiredTitle": {
+    "description": "Headline when the reservation countdown reaches zero."
+  },
+  "seatHoldExpiredMessage": "Your seats were released. Choose again to continue.",
+  "@seatHoldExpiredMessage": {
+    "description": "Body copy when the reservation countdown reaches zero."
+  },
+  "seatChooseAgain": "Choose again",
+  "@seatChooseAgain": {
+    "description": "Action that restarts seat selection after a hold expires."
+  },
+  "seatDismiss": "Dismiss",
+  "@seatDismiss": {
+    "description": "Accessibility label for closing a toast or sheet."
+  },
+  "checkoutTitle": "Order Checkout",
+  "@checkoutTitle": {
+    "description": "Header title of the checkout screen."
+  },
+  "checkoutWindowActive": "PAYMENT WINDOW ACTIVE",
+  "@checkoutWindowActive": {
+    "description": "Status label on the countdown bar while payment is possible."
+  },
+  "checkoutWindowExtended": "Hold extended +{minutes}m for checkout",
+  "@checkoutWindowExtended": {
+    "description": "Sub-label explaining that the seat hold was extended for payment. {minutes} is the extension granted by the server.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutConfirmedReservation": "CONFIRMED RESERVATION",
+  "@checkoutConfirmedReservation": {
+    "description": "Label above the reserved event in the checkout summary."
+  },
+  "checkoutSeatReserved": "SEAT RESERVED",
+  "@checkoutSeatReserved": {
+    "description": "Label on the reserved-seat card."
+  },
+  "checkoutPriceBreakdown": "PRICE BREAKDOWN",
+  "@checkoutPriceBreakdown": {
+    "description": "Heading above the itemised charges."
+  },
+  "checkoutVatRegistration": "VAT Reg #{number}",
+  "@checkoutVatRegistration": {
+    "description": "The seller's VAT registration, shown beside the price breakdown.",
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutTotalAmount": "Total Amount",
+  "@checkoutTotalAmount": {
+    "description": "Label for the amount that will be charged."
+  },
+  "checkoutPayNow": "Pay now · {amount} {currency}",
+  "@checkoutPayNow": {
+    "description": "Primary button that hands off to the payment gateway.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutCancelHold": "Cancel hold",
+  "@checkoutCancelHold": {
+    "description": "Secondary action that releases the reserved seats."
+  },
+  "checkoutCancelTitle": "Release your seats?",
+  "@checkoutCancelTitle": {
+    "description": "Title of the dialog confirming a hold cancellation."
+  },
+  "checkoutCancelMessage": "Your reserved seats will be returned to public inventory and may be taken by someone else.",
+  "@checkoutCancelMessage": {
+    "description": "Body of the dialog confirming a hold cancellation."
+  },
+  "checkoutCancelConfirm": "Release seats",
+  "@checkoutCancelConfirm": {
+    "description": "Confirm button in the cancel-hold dialog."
+  },
+  "checkoutKeepHold": "Keep my seats",
+  "@checkoutKeepHold": {
+    "description": "Dismiss button in the cancel-hold dialog."
+  },
+  "checkoutSessionTimeout": "SESSION TIMEOUT",
+  "@checkoutSessionTimeout": {
+    "description": "Status pill shown when the payment window has closed."
+  },
+  "checkoutHoldTimer": "HOLD TIMER",
+  "@checkoutHoldTimer": {
+    "description": "Label above the expired countdown."
+  },
+  "checkoutExpiredTitle": "Hold expired —",
+  "@checkoutExpiredTitle": {
+    "description": "First line of the expired headline."
+  },
+  "checkoutExpiredTitleAccent": "seats released",
+  "@checkoutExpiredTitleAccent": {
+    "description": "Second line of the expired headline, shown in the alert colour."
+  },
+  "checkoutExpiredMessage": "Your temporary reservation window reached zero. To ensure fair access across high-demand events, previously reserved seats have been returned to public inventory.",
+  "@checkoutExpiredMessage": {
+    "description": "Explanation shown when the payment window closes."
+  },
+  "checkoutReleasedReservation": "RELEASED RESERVATION",
+  "@checkoutReleasedReservation": {
+    "description": "Label above the reservation that was lost."
+  },
+  "checkoutExpiredTag": "EXPIRED",
+  "@checkoutExpiredTag": {
+    "description": "Tag marking the released reservation."
+  },
+  "checkoutHeldSeat": "Held Seat: {seat}",
+  "@checkoutHeldSeat": {
+    "description": "Names the seat that was released. {seat} is a seat reference such as 'VIP · A-12'.",
+    "placeholders": {
+      "seat": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutPolicyNote": "{code}: Strict TTL seat lifecycle policy",
+  "@checkoutPolicyNote": {
+    "description": "Reference to the policy under which seats were released. {code} is a rule identifier.",
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutSelectSeatsAgain": "SELECT SEATS AGAIN",
+  "@checkoutSelectSeatsAgain": {
+    "description": "Primary action returning the user to seat selection."
+  },
+  "checkoutReturnToEvent": "Return to Event Overview",
+  "@checkoutReturnToEvent": {
+    "description": "Secondary action returning the user to the event detail screen."
+  },
+  "checkoutPaymentUnavailable": "Payment could not be started. Please try again.",
+  "@checkoutPaymentUnavailable": {
+    "description": "Shown when the gateway handoff fails but the window is still open."
+  },
+  "checkoutGatewayOpens": "Opening secure payment…",
+  "@checkoutGatewayOpens": {
+    "description": "Shown while handing off to the hosted payment gateway."
+  },
+  "passActiveBadge": "ACTIVE GATE PASS",
+  "@passActiveBadge": {
+    "description": "Status label at the top of a presentable gate pass."
+  },
+  "passReferenceLine": "{reference} · TOTP",
+  "@passReferenceLine": {
+    "description": "Rule reference and protocol shown beside the pass status.",
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "passSeatLabel": "SEAT",
+  "@passSeatLabel": {
+    "description": "Label above the seat on the pass header."
+  },
+  "passHighLuminosity": "Screen set to high luminosity",
+  "@passHighLuminosity": {
+    "description": "Notice that the screen was brightened so a scanner can read the code."
+  },
+  "passCardBrand": "TAZKERAH",
+  "@passCardBrand": {
+    "description": "Brand mark printed inside the QR card."
+  },
+  "passDynamicPass": "DYNAMIC PASS",
+  "@passDynamicPass": {
+    "description": "Label inside the QR card's bottom edge."
+  },
+  "passSecondsRemaining": "{seconds}s",
+  "@passSecondsRemaining": {
+    "description": "Seconds left before the code rotates.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "passRemainingSuffix": "remaining",
+  "@passRemainingSuffix": {
+    "description": "Word following the countdown seconds."
+  },
+  "passRefreshNote": "Code refreshes every {seconds}s",
+  "@passRefreshNote": {
+    "description": "Explains the rotation cycle. {seconds} comes from the pass grant.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "passSecurityNote": "ANTI-SCREENSHOT WATERMARKED · SINGLE ENTRY ONLY",
+  "@passSecurityNote": {
+    "description": "Security properties printed under the pass."
+  },
+  "passHolder": "Holder",
+  "@passHolder": {
+    "description": "Row label for the ticket holder's name."
+  },
+  "passEntrance": "Entrance",
+  "@passEntrance": {
+    "description": "Row label for the gate to use."
+  },
+  "passStatusRow": "Status",
+  "@passStatusRow": {
+    "description": "Row label for the validation status."
+  },
+  "passFastTrack": "{gate} · FastTrack",
+  "@passFastTrack": {
+    "description": "Entrance value when the holder has fast-track access.",
+    "placeholders": {
+      "gate": {
+        "type": "String"
+      }
+    }
+  },
+  "passOnlineValidated": "Online Validated",
+  "@passOnlineValidated": {
+    "description": "Validation status when the pass was checked against the server."
+  },
+  "passScannerHint": "Hold phone directly over scanner glass",
+  "@passScannerHint": {
+    "description": "Instruction under the pass details."
+  },
+  "passClockStale": "Device clock is out of sync. The gate may reject this code.",
+  "@passClockStale": {
+    "description": "Warning shown when the corrected clock is too old to trust."
+  },
+  "passInterceptEyebrow": "SECURITY INTERCEPT",
+  "@passInterceptEyebrow": {
+    "description": "Eyebrow on the capture-detected banner."
+  },
+  "passInterceptJustNow": "JUST NOW",
+  "@passInterceptJustNow": {
+    "description": "Timestamp on a capture that just happened."
+  },
+  "passInterceptTitle": "Screenshot detected: Code refreshed for security.",
+  "@passInterceptTitle": {
+    "description": "Headline when a screen capture is detected."
+  },
+  "passInterceptMessage": "Static copies are invalid at the gate. Tap to reveal a fresh code.",
+  "@passInterceptMessage": {
+    "description": "Explains why the captured code no longer works."
+  },
+  "passRedacted": "PAYLOAD REDACTED",
+  "@passRedacted": {
+    "description": "Shown in place of the QR code when it is withheld."
+  },
+  "passRedactedHash": "HASH: {hash}",
+  "@passRedactedHash": {
+    "description": "The withheld code's hash. Never the code itself.",
+    "placeholders": {
+      "hash": {
+        "type": "String"
+      }
+    }
+  },
+  "passAntiScreenshotGuard": "ANTI-SCREENSHOT GUARD",
+  "@passAntiScreenshotGuard": {
+    "description": "Tag on the redacted QR placeholder."
+  },
+  "passRekeying": "RE-KEYING SEED:",
+  "@passRekeying": {
+    "description": "Label before the new-token status."
+  },
+  "passNewTokenReady": "NEW TOKEN READY",
+  "@passNewTokenReady": {
+    "description": "Status showing a fresh code can be revealed."
+  },
+  "passRollingNote": "Dynamic rolling ticket · STRICT {seconds}s TOTP cycle",
+  "@passRollingNote": {
+    "description": "Describes the rotation policy under the redacted code.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "passVenueEntry": "VENUE ENTRY",
+  "@passVenueEntry": {
+    "description": "Column label for the gate on the intercepted frame."
+  },
+  "passValidation": "VALIDATION",
+  "@passValidation": {
+    "description": "Column label for validation state."
+  },
+  "passSynced": "SYNCED",
+  "@passSynced": {
+    "description": "Validation value when the device is in sync with the server."
+  },
+  "passDeviceId": "DEVICE ID",
+  "@passDeviceId": {
+    "description": "Column label for the bound device identifier."
+  },
+  "passRevealFresh": "Reveal fresh dynamic QR",
+  "@passRevealFresh": {
+    "description": "Button that requests and shows a new code after an intercept."
+  },
+  "passSecuredBy": "Secured by Tazkerah Anti-Passback & In-Memory TOTP Protocol",
+  "@passSecuredBy": {
+    "description": "Footer note on the intercepted frame."
+  },
+  "passConfirmedAccess": "CONFIRMED ACCESS · SECURE TOTP PASS",
+  "@passConfirmedAccess": {
+    "description": "Eyebrow above the event name on the intercepted frame."
+  },
+  "passZoneSeat": "ZONE: {zone} · SEAT: {seat}",
+  "@passZoneSeat": {
+    "description": "Zone and seat line on the intercepted frame.",
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      },
+      "seat": {
+        "type": "String"
+      }
+    }
+  },
+  "passUnavailableTitle": "Pass not available",
+  "@passUnavailableTitle": {
+    "description": "Heading when a pass cannot be presented at all."
+  },
+  "passUnavailableConsumed": "This pass has already been used. Single entry only.",
+  "@passUnavailableConsumed": {
+    "description": "Shown for a consumed pass."
+  },
+  "passUnavailableInvalid": "This pass is no longer valid.",
+  "@passUnavailableInvalid": {
+    "description": "Shown for a revoked or refunded pass."
+  },
+  "passSkewBadge": "SKEW > {seconds}s",
+  "@passSkewBadge": {
+    "description": "Header pill when clock drift exceeds the suppression threshold.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "passAuthProtocol": "{reference} · Gate Auth Protocol",
+  "@passAuthProtocol": {
+    "description": "Sub-header naming the security policy in force.",
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "passSkewTitle": "DEVICE TIME OUT OF SYNC",
+  "@passSkewTitle": {
+    "description": "Headline of the clock-drift banner."
+  },
+  "passSkewMessage": "Clock drift exceeded {seconds} seconds. Dynamic TOTP QR code hidden for access integrity per security policy {policy}.",
+  "@passSkewMessage": {
+    "description": "Explains why the QR is withheld. {seconds} is the threshold; {policy} is the rule reference.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      },
+      "policy": {
+        "type": "String"
+      }
+    }
+  },
+  "passHolderLabel": "PASS HOLDER",
+  "@passHolderLabel": {
+    "description": "Label above the pass holder on the fallback frame."
+  },
+  "passAssignedSeat": "ASSIGNED SEAT",
+  "@passAssignedSeat": {
+    "description": "Label above the seat on the fallback frame."
+  },
+  "passQrSuppressed": "QR DISPLAY SUPPRESSED ({policy})",
+  "@passQrSuppressed": {
+    "description": "Chip replacing the QR when it is withheld for clock drift.",
+    "placeholders": {
+      "policy": {
+        "type": "String"
+      }
+    }
+  },
+  "passManualCodeLabel": "MANUAL ENTRY FALLBACK CODE",
+  "@passManualCodeLabel": {
+    "description": "Label above the typed gate code."
+  },
+  "passManualCodeHelp": "Present this 8-digit emergency code directly to the steward at the gate terminal for manual validation.",
+  "@passManualCodeHelp": {
+    "description": "Instruction under the manual entry code."
+  },
+  "passOffsetReadout": "Offset: {offset} Skew",
+  "@passOffsetReadout": {
+    "description": "Shows how far the device clock is from server time.",
+    "placeholders": {
+      "offset": {
+        "type": "String"
+      }
+    }
+  },
+  "passHashReadout": "Hash: {hash}",
+  "@passHashReadout": {
+    "description": "Shows the code's identifying hash.",
+    "placeholders": {
+      "hash": {
+        "type": "String"
+      }
+    }
+  },
+  "passResyncAction": "Attempt Time Re-sync (NTP)",
+  "@passResyncAction": {
+    "description": "Button that re-learns the clock offset from the server."
+  },
+  "passStaffOverride": "Gate staff can override via offline keypad entry",
+  "@passStaffOverride": {
+    "description": "Footer note on the fallback frame."
+  },
+  "passResyncFailed": "Could not reach the time server. The fallback code is still valid.",
+  "@passResyncFailed": {
+    "description": "Shown when a re-sync attempt fails."
+  },
+  "passResyncStillSkewed": "Clock is still out of sync. Keep using the fallback code.",
+  "@passResyncStillSkewed": {
+    "description": "Shown when a re-sync succeeds but drift remains too large."
+  },
+  "walletTitle": "My Tickets",
+  "@walletTitle": {
+    "description": "Title of the ticket wallet screen."
+  },
+  "walletUpcoming": "UPCOMING",
+  "@walletUpcoming": {
+    "description": "Section heading for tickets to events still to come."
+  },
+  "walletPast": "PAST",
+  "@walletPast": {
+    "description": "Section heading for used, expired and refunded tickets."
+  },
+  "walletEmptyTitle": "No tickets yet",
+  "@walletEmptyTitle": {
+    "description": "Heading when the wallet holds nothing."
+  },
+  "walletEmptyMessage": "Tickets you buy will appear here, ready to present at the gate.",
+  "@walletEmptyMessage": {
+    "description": "Body text when the wallet holds nothing."
+  },
+  "walletBrowseEvents": "Browse events",
+  "@walletBrowseEvents": {
+    "description": "Action taking an empty wallet to the event feed."
+  },
+  "walletStatusValid": "VALID",
+  "@walletStatusValid": {
+    "description": "Status tag on a usable ticket."
+  },
+  "walletStatusUsed": "USED",
+  "@walletStatusUsed": {
+    "description": "Status tag on a ticket already scanned at a gate."
+  },
+  "walletStatusRefunded": "REFUNDED",
+  "@walletStatusRefunded": {
+    "description": "Status tag on a refunded ticket."
+  },
+  "walletStatusExpired": "EXPIRED",
+  "@walletStatusExpired": {
+    "description": "Status tag on a ticket whose event has passed unused."
+  },
+  "ticketOrderReference": "ORDER {reference}",
+  "@ticketOrderReference": {
+    "description": "The order a ticket came from.",
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "ticketSeatLabel": "SEAT",
+  "@ticketSeatLabel": {
+    "description": "Label above the seat on a ticket."
+  },
+  "ticketZoneLabel": "ZONE",
+  "@ticketZoneLabel": {
+    "description": "Label above the zone on a ticket."
+  },
+  "ticketGateLabel": "GATE",
+  "@ticketGateLabel": {
+    "description": "Label above the entrance on a ticket."
+  },
+  "ticketPaidLabel": "PAID",
+  "@ticketPaidLabel": {
+    "description": "Label above the amount paid."
+  },
+  "ticketPurchasedOn": "Purchased {date}",
+  "@ticketPurchasedOn": {
+    "description": "When the ticket was bought.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "ticketPresentAction": "Present at gate",
+  "@ticketPresentAction": {
+    "description": "Primary action opening the rotating gate pass."
+  },
+  "ticketCannotPresent": "This ticket can no longer be presented.",
+  "@ticketCannotPresent": {
+    "description": "Shown in place of the present action for a used or refunded ticket."
+  },
+  "ticketMissingTitle": "Ticket not found",
+  "@ticketMissingTitle": {
+    "description": "Heading when a ticket id does not exist."
+  },
+  "ticketMissingMessage": "This ticket may have been transferred or the link may be out of date.",
+  "@ticketMissingMessage": {
+    "description": "Body text when a ticket id does not exist."
+  },
+  "ticketViewEvent": "View event",
+  "@ticketViewEvent": {
+    "description": "Action opening the event this ticket belongs to."
+  },
+  "confirmationSettlingTitle": "Confirming your payment",
+  "@confirmationSettlingTitle": {
+    "description": "Heading while waiting for the gateway to settle."
+  },
+  "confirmationSettlingMessage": "This usually takes a few seconds. Do not close the app.",
+  "@confirmationSettlingMessage": {
+    "description": "Body text while waiting for the gateway to settle."
+  },
+  "confirmationTitle": "Purchase confirmed",
+  "@confirmationTitle": {
+    "description": "Heading once the ticket has been issued."
+  },
+  "confirmationMessage": "Your ticket is ready. Present it at the gate when you arrive.",
+  "@confirmationMessage": {
+    "description": "Body text once the ticket has been issued."
+  },
+  "confirmationViewTicket": "View my ticket",
+  "@confirmationViewTicket": {
+    "description": "Primary action opening the newly issued ticket."
+  },
+  "confirmationGoToWallet": "Go to my tickets",
+  "@confirmationGoToWallet": {
+    "description": "Secondary action opening the wallet."
+  },
+  "confirmationPendingTitle": "Payment is taking longer than usual",
+  "@confirmationPendingTitle": {
+    "description": "Heading when settlement exceeds the polling window."
+  },
+  "confirmationPendingMessage": "If the payment succeeded, your ticket will appear in My Tickets shortly. You have not been charged twice.",
+  "@confirmationPendingMessage": {
+    "description": "Body text when settlement exceeds the polling window."
+  },
+  "conciergeTitle": "Concierge",
+  "@conciergeTitle": {
+    "description": "Title of the AI concierge screen."
+  },
+  "conciergeSubtitle": "Ask about gates, seating and your tickets",
+  "@conciergeSubtitle": {
+    "description": "Sub-heading describing what the concierge can help with."
+  },
+  "conciergeEmptyTitle": "How can I help?",
+  "@conciergeEmptyTitle": {
+    "description": "Heading on the empty conversation."
+  },
+  "conciergeEmptyMessage": "Ask about gate times, where your seat is, or what your ticket covers.",
+  "@conciergeEmptyMessage": {
+    "description": "Body text on the empty conversation."
+  },
+  "conciergeComposerHint": "Ask a question",
+  "@conciergeComposerHint": {
+    "description": "Placeholder in the message composer."
+  },
+  "conciergeSend": "Send",
+  "@conciergeSend": {
+    "description": "Accessibility label for the send button."
+  },
+  "conciergeThinking": "Thinking…",
+  "@conciergeThinking": {
+    "description": "Shown while waiting for the first token of an answer."
+  },
+  "conciergeInterrupted": "Answer interrupted",
+  "@conciergeInterrupted": {
+    "description": "Tag on an answer whose stream dropped partway."
+  },
+  "conciergeRetry": "Try again",
+  "@conciergeRetry": {
+    "description": "Action that re-asks the last question."
+  },
+  "conciergeSources": "SOURCES",
+  "@conciergeSources": {
+    "description": "Label above the citations under an answer."
+  },
+  "conciergeOfflineTitle": "Concierge needs a connection",
+  "@conciergeOfflineTitle": {
+    "description": "Heading when the device is offline."
+  },
+  "conciergeOfflineMessage": "Answers are looked up on our servers, so the concierge cannot work offline. Your tickets remain available in My Tickets.",
+  "@conciergeOfflineMessage": {
+    "description": "Explains why the concierge is disabled offline, and what still works."
+  },
+  "conciergeClear": "Clear conversation",
+  "@conciergeClear": {
+    "description": "Action that empties the conversation."
+  },
+  "conciergeDisclaimer": "Answers may be incomplete. Check your ticket for the final details.",
+  "@conciergeDisclaimer": {
+    "description": "Standing note under the composer."
+  },
+  "conciergeSuggestionGates": "When do gates open?",
+  "@conciergeSuggestionGates": {
+    "description": "A suggested question on the empty conversation."
+  },
+  "conciergeSuggestionSeat": "Where is my seat?",
+  "@conciergeSuggestionSeat": {
+    "description": "A suggested question on the empty conversation."
+  },
+  "conciergeSuggestionRefund": "What is the refund policy?",
+  "@conciergeSuggestionRefund": {
+    "description": "A suggested question on the empty conversation."
+  },
+  "profileTitle": "Profile",
+  "@profileTitle": {
+    "description": "Title of the profile screen."
+  },
+  "profileAccountSection": "ACCOUNT",
+  "@profileAccountSection": {
+    "description": "Section heading for account details."
+  },
+  "profileSecuritySection": "SECURITY",
+  "@profileSecuritySection": {
+    "description": "Section heading for device and key details."
+  },
+  "profileAppSection": "APP",
+  "@profileAppSection": {
+    "description": "Section heading for app-level settings."
+  },
+  "profileEmailLabel": "Email",
+  "@profileEmailLabel": {
+    "description": "Row label for the account email."
+  },
+  "profilePhoneLabel": "Phone",
+  "@profilePhoneLabel": {
+    "description": "Row label for the account phone number."
+  },
+  "profileMemberSince": "Member since {date}",
+  "@profileMemberSince": {
+    "description": "How long the account has existed.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "profileDeviceLabel": "This device",
+  "@profileDeviceLabel": {
+    "description": "Row label for the bound device identifier."
+  },
+  "profileDeviceNote": "Your passes are bound to this device and cannot be presented from another.",
+  "@profileDeviceNote": {
+    "description": "Explains what device binding means for the user."
+  },
+  "profileLanguageLabel": "Language",
+  "@profileLanguageLabel": {
+    "description": "Row label for the app language."
+  },
+  "profileLanguageSystem": "System default",
+  "@profileLanguageSystem": {
+    "description": "Language option that follows the device setting."
+  },
+  "profileSignOut": "Sign out",
+  "@profileSignOut": {
+    "description": "Action that ends the session on this device."
+  },
+  "profileSignOutTitle": "Sign out of Tazkerah?",
+  "@profileSignOutTitle": {
+    "description": "Title of the sign-out confirmation dialog."
+  },
+  "profileSignOutMessage": "Your tickets stay on your account, but this device will no longer be able to present them until you sign in again.",
+  "@profileSignOutMessage": {
+    "description": "Body of the sign-out confirmation dialog."
+  },
+  "profileSignOutConfirm": "Sign out",
+  "@profileSignOutConfirm": {
+    "description": "Confirm button in the sign-out dialog."
+  },
+  "profileStay": "Stay signed in",
+  "@profileStay": {
+    "description": "Dismiss button in the sign-out dialog."
+  },
+  "profileVersion": "Version {version} ({build})",
+  "@profileVersion": {
+    "description": "The app version and build number, shown at the foot of the profile screen.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "build": {
+        "type": "String"
+      }
+    }
+  }
+}

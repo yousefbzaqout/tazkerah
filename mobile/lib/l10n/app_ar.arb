@@ -1,0 +1,565 @@
+{
+  "@@locale": "ar",
+  "appTitle": "تذكرة",
+  "commonRetry": "إعادة المحاولة",
+  "commonCancel": "إلغاء",
+  "commonOk": "حسناً",
+  "errorNetwork": "لا يوجد اتصال بالإنترنت. تحقق من الشبكة وحاول مرة أخرى.",
+  "errorTimeout": "استغرق الطلب وقتاً طويلاً. يرجى المحاولة مرة أخرى.",
+  "errorServer": "حدث خطأ لدينا. يرجى المحاولة بعد قليل.",
+  "errorUnauthorized": "انتهت جلستك. يرجى تسجيل الدخول مرة أخرى.",
+  "errorUnexpected": "حدث خطأ غير متوقع.",
+  "stateEmptyTitle": "لا يوجد شيء هنا بعد",
+  "stateOfflineBanner": "أنت غير متصل. يتم عرض البيانات المحفوظة.",
+  "settingsLanguage": "اللغة",
+  "settingsThemeSystem": "إعدادات النظام",
+  "settingsThemeLight": "فاتح",
+  "settingsThemeDark": "داكن",
+  "appTitleLatin": "Tazkerah",
+  "authBrandNameArabic": "تذكرة",
+  "authTagline": "ادخل إلى تصاريحك الرقمية الآمنة وبوابات الدخول المشفّرة.",
+  "authIdentifierLabel": "البريد الإلكتروني أو الجوال",
+  "authIdentifierHint": "name@domain.com أو ‎+966...",
+  "authContinue": "متابعة",
+  "authOfflineBadge": "غير متصل — يلزم اتصال بالشبكة",
+  "authOfflineExplanation": "الشبكة غير متاحة. يلزم اتصال فعّال بالإنترنت للتحقق من هويتك وإصدار تصاريح الدخول المشفّرة.",
+  "authCheckConnection": "إعادة فحص الاتصال",
+  "authIdentifierRequired": "أدخل بريدك الإلكتروني أو رقم جوالك.",
+  "authIdentifierInvalid": "أدخل بريداً إلكترونياً أو رقم جوال صحيحاً.",
+  "legalTerms": "شروط الخدمة",
+  "legalPrivacy": "سياسة الخصوصية",
+  "eventsEyebrow": "بوابات دخول حصرية",
+  "eventsLivePasses": "تصاريح نشطة",
+  "navEvents": "الفعاليات",
+  "navTickets": "تذاكري",
+  "navConcierge": "المساعد",
+  "navProfile": "حسابي",
+  "routeNotFoundTitle": "الصفحة غير موجودة",
+  "routeNotFoundMessage": "الرابط الذي فتحته لا يؤدي إلى أي صفحة.",
+  "routeGoHome": "الذهاب إلى الرئيسية",
+  "otpTitle": "رمز التحقق",
+  "otpCodeLabel": "رمز التحقق",
+  "otpDigitsHint": "٦ أرقام",
+  "otpEdit": "تعديل",
+  "otpNoCode": "لم يصلك الرمز؟",
+  "otpResend": "إعادة إرسال الرمز",
+  "otpResendIn": "إعادة الإرسال خلال {seconds} ثانية",
+  "otpVerify": "تحقّق",
+  "otpInvalid": "رمز غير صحيح. حاول مرة أخرى.",
+  "otpExpired": "انتهت صلاحية الرمز. اطلب رمزاً جديداً.",
+  "otpTooManyAttempts": "محاولات كثيرة. حاول لاحقاً.",
+  "otpResent": "تم إرسال رمز جديد.",
+  "discoveryTitle": "اختر تجربتك",
+  "discoveryCacheEyebrow": "ذاكرة مؤقتة مشفّرة محليًا",
+  "discoverySynchronizing": "جارٍ المزامنة...",
+  "discoveryPassesReady": "{count, plural, zero{لا تذاكر جاهزة} one{تذكرة واحدة جاهزة} two{تذكرتان جاهزتان} few{{count} تذاكر جاهزة} many{{count} تذكرة جاهزة} other{{count} تذكرة جاهزة}}",
+  "@discoveryPassesReady": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "discoveryOfflineBanner": "غير متصل — يتم عرض فعاليات محفوظة",
+  "discoveryLastSynchronized": "آخر مزامنة قبل {duration}",
+  "@discoveryLastSynchronized": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryReconnect": "إعادة الاتصال",
+  "discoverySearchHint": "ابحث عن فعاليات أو أماكن أو مدن",
+  "discoverySearchClear": "مسح البحث",
+  "discoveryPriceFrom": "تبدأ من",
+  "discoveryPrice": "{amount} {currency}",
+  "@discoveryPrice": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "discoverySoldOut": "نفدت التذاكر",
+  "discoveryCachedTag": "محفوظة",
+  "discoveryEmptyTitle": "لا توجد فعاليات",
+  "discoveryEmptyMessage": "لا توجد نتائج مطابقة لبحثك حاليًا. جرّب كلمة أخرى.",
+  "discoveryEmptyFeedMessage": "لا توجد فعاليات معروضة حاليًا. عد إلينا قريبًا.",
+  "discoveryVenueSeparator": "{venue} • {city}",
+  "@discoveryVenueSeparator": {
+    "placeholders": {
+      "venue": {
+        "type": "String"
+      },
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "discoveryEventCardLabel": "{title}، {date}، تبدأ من {price}",
+  "@discoveryEventCardLabel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "durationMinutes": "{minutes} دقيقة",
+  "@durationMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "durationHours": "{hours} ساعة",
+  "@durationHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "durationDays": "{days} يوم",
+  "@durationDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "detailOfficialGateEntry": "دخول رسمي للبوابة",
+  "detailDateTimeLabel": "التاريخ والوقت",
+  "detailLocationLabel": "الموقع",
+  "detailOverviewLabel": "نبذة",
+  "detailGatesAt": "{time} {zone} (فتح البوابات {doors})",
+  "@detailGatesAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "zone": {
+        "type": "String"
+      },
+      "doors": {
+        "type": "String"
+      }
+    }
+  },
+  "detailTimeNoGates": "{time} {zone}",
+  "@detailTimeNoGates": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "zone": {
+        "type": "String"
+      }
+    }
+  },
+  "detailStartingFrom": "تبدأ من",
+  "detailFeesIncluded": "شامل ضريبة القيمة المضافة ورسوم البوابة",
+  "detailSelectSeats": "اختيار المقاعد",
+  "detailSoldOut": "نفدت التذاكر",
+  "detailNotOnSale": "لم يبدأ البيع بعد",
+  "detailAntiPassback": "منع إعادة التمرير مفعّل",
+  "detailShare": "مشاركة الفعالية",
+  "detailBack": "رجوع",
+  "detailMissingTitle": "الفعالية غير متاحة",
+  "detailMissingMessage": "قد تكون الفعالية قد انتهت أو أن الرابط لم يعد صالحًا.",
+  "detailBrowseEvents": "تصفّح الفعاليات",
+  "detailSeatSelectionSoon": "سيتاح اختيار المقاعد في الإصدار القادم.",
+  "detailShareSoon": "ستتاح المشاركة في الإصدار القادم.",
+  "errorLocked": "هذا القسم غير متاح للحجز.",
+  "seatLegendAvailable": "متاح",
+  "seatLegendTaken": "محجوز",
+  "seatLegendConflict": "تعارض (409)",
+  "seatLegendHeld": "محجوز لك",
+  "seatLegendSold": "مُباع",
+  "seatStage": "المسرح / العرض",
+  "seatStagePodium": "المسرح / المنصة الرئيسية",
+  "seatTakenTag": "محجوز",
+  "seatStatusLive": "مزامنة حية",
+  "seatStatusLabel": "الحالة",
+  "seatCurrentSelection": "الاختيار الحالي",
+  "seatNoSelection": "لم يتم اختيار مقعد",
+  "seatSubtotal": "المجموع",
+  "seatSelectPrompt": "اختر مقعدًا متاحًا",
+  "seatHoldSeat": "حجز المقعد",
+  "seatConflictEyebrow": "تعارض · HTTP 409",
+  "seatConflictTitle": "تم حجز المقعد للتو — اختر غيره",
+  "seatConflictMessage": "أكمل ضيف آخر الحجز لهذا المقعد قبل أجزاء من الثانية. تم مسح اختيارك.",
+  "seatConflictSeat": "مقعد {seat}",
+  "@seatConflictSeat": {
+    "placeholders": {
+      "seat": {
+        "type": "String"
+      }
+    }
+  },
+  "seatLockedStatus": "HTTP 423 · مقفل",
+  "seatLockedTitle": "القسم مقفل من قبل المنظّم",
+  "seatLockedMessage": "{sector} محجوز حاليًا لتخصيص الإنتاج أو لضيوف الفنان. لا يمكن حجز مقاعد فردية.",
+  "@seatLockedMessage": {
+    "placeholders": {
+      "sector": {
+        "type": "String"
+      }
+    }
+  },
+  "seatLockedTargetLabel": "القسم المطلوب",
+  "seatLockedReasonLabel": "سبب الإقفال",
+  "seatLockedAlternativesLabel": "البدائل المتاحة",
+  "seatChooseAnotherSector": "اختر قسمًا آخر",
+  "seatViewAvailableOnly": "عرض الأقسام المتاحة فقط",
+  "seatHeldBadge": "محجوز ({reference})",
+  "@seatHeldBadge": {
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "seatSeatsHeld": "المقاعد المحجوزة",
+  "seatLockedToOrder": "مرتبط بالطلب",
+  "seatSelectionLockedNote": "اختيار المقاعد مقفل أثناء عمل المؤقّت",
+  "seatAssignedSelection": "المقعد المخصص",
+  "seatTotalPrice": "السعر الإجمالي",
+  "seatFeesNote": "شامل ضريبة القيمة المضافة ودخول البوابة",
+  "seatContinueCheckout": "متابعة الدفع",
+  "seatRowSeatCaption": "(صف {row}، مقعد {seat})",
+  "@seatRowSeatCaption": {
+    "placeholders": {
+      "row": {
+        "type": "String"
+      },
+      "seat": {
+        "type": "String"
+      }
+    }
+  },
+  "seatUnavailableInTier": "غير متاح في هذه الفئة",
+  "seatHoldExpiredTitle": "انتهت مدة الحجز",
+  "seatHoldExpiredMessage": "تم تحرير مقاعدك. اختر من جديد للمتابعة.",
+  "seatChooseAgain": "اختر من جديد",
+  "seatDismiss": "إغلاق",
+  "checkoutTitle": "إتمام الطلب",
+  "checkoutWindowActive": "نافذة الدفع مفتوحة",
+  "checkoutWindowExtended": "تم تمديد الحجز {minutes} دقائق لإتمام الدفع",
+  "@checkoutWindowExtended": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "checkoutConfirmedReservation": "الحجز المؤكد",
+  "checkoutSeatReserved": "المقعد المحجوز",
+  "checkoutPriceBreakdown": "تفاصيل السعر",
+  "checkoutVatRegistration": "الرقم الضريبي {number}",
+  "@checkoutVatRegistration": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutTotalAmount": "المبلغ الإجمالي",
+  "checkoutPayNow": "ادفع الآن · {amount} {currency}",
+  "@checkoutPayNow": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutCancelHold": "إلغاء الحجز",
+  "checkoutCancelTitle": "تحرير مقاعدك؟",
+  "checkoutCancelMessage": "ستعود مقاعدك المحجوزة إلى المخزون العام وقد يحجزها شخص آخر.",
+  "checkoutCancelConfirm": "تحرير المقاعد",
+  "checkoutKeepHold": "الاحتفاظ بمقاعدي",
+  "checkoutSessionTimeout": "انتهت الجلسة",
+  "checkoutHoldTimer": "مؤقّت الحجز",
+  "checkoutExpiredTitle": "انتهت مدة الحجز —",
+  "checkoutExpiredTitleAccent": "تم تحرير المقاعد",
+  "checkoutExpiredMessage": "وصلت نافذة الحجز المؤقت إلى الصفر. لضمان وصول عادل للفعاليات عالية الطلب، أُعيدت المقاعد المحجوزة سابقًا إلى المخزون العام.",
+  "checkoutReleasedReservation": "الحجز المُحرَّر",
+  "checkoutExpiredTag": "منتهٍ",
+  "checkoutHeldSeat": "المقعد المحجوز: {seat}",
+  "@checkoutHeldSeat": {
+    "placeholders": {
+      "seat": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutPolicyNote": "{code}: سياسة صارمة لدورة حياة المقعد",
+  "@checkoutPolicyNote": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "checkoutSelectSeatsAgain": "اختر المقاعد مرة أخرى",
+  "checkoutReturnToEvent": "العودة إلى صفحة الفعالية",
+  "checkoutPaymentUnavailable": "تعذّر بدء عملية الدفع. يرجى المحاولة مرة أخرى.",
+  "checkoutGatewayOpens": "جارٍ فتح الدفع الآمن…",
+  "passActiveBadge": "تصريح دخول فعّال",
+  "passReferenceLine": "{reference} · TOTP",
+  "@passReferenceLine": {
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "passSeatLabel": "المقعد",
+  "passHighLuminosity": "تم رفع سطوع الشاشة",
+  "passCardBrand": "TAZKERAH",
+  "passDynamicPass": "تصريح ديناميكي",
+  "passSecondsRemaining": "{seconds} ث",
+  "@passSecondsRemaining": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "passRemainingSuffix": "متبقية",
+  "passRefreshNote": "يتجدد الرمز كل {seconds} ثانية",
+  "@passRefreshNote": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "passSecurityNote": "علامة مائية ضد لقطات الشاشة · دخول لمرة واحدة فقط",
+  "passHolder": "حامل التذكرة",
+  "passEntrance": "المدخل",
+  "passStatusRow": "الحالة",
+  "passFastTrack": "{gate} · مسار سريع",
+  "@passFastTrack": {
+    "placeholders": {
+      "gate": {
+        "type": "String"
+      }
+    }
+  },
+  "passOnlineValidated": "تم التحقق عبر الإنترنت",
+  "passScannerHint": "ضع الهاتف مباشرة فوق زجاج الماسح",
+  "passClockStale": "ساعة الجهاز غير متزامنة. قد ترفض البوابة هذا الرمز.",
+  "passInterceptEyebrow": "اعتراض أمني",
+  "passInterceptJustNow": "الآن",
+  "passInterceptTitle": "تم رصد لقطة شاشة: جرى تحديث الرمز لأسباب أمنية.",
+  "passInterceptMessage": "النسخ الثابتة غير صالحة عند البوابة. اضغط لعرض رمز جديد.",
+  "passRedacted": "تم إخفاء المحتوى",
+  "passRedactedHash": "البصمة: {hash}",
+  "@passRedactedHash": {
+    "placeholders": {
+      "hash": {
+        "type": "String"
+      }
+    }
+  },
+  "passAntiScreenshotGuard": "حماية ضد لقطات الشاشة",
+  "passRekeying": "إعادة توليد المفتاح:",
+  "passNewTokenReady": "رمز جديد جاهز",
+  "passRollingNote": "تذكرة متجددة · دورة TOTP صارمة كل {seconds} ثانية",
+  "@passRollingNote": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "passVenueEntry": "مدخل المكان",
+  "passValidation": "التحقق",
+  "passSynced": "متزامن",
+  "passDeviceId": "معرّف الجهاز",
+  "passRevealFresh": "عرض رمز جديد",
+  "passSecuredBy": "محمي ببروتوكول Tazkerah لمنع إعادة التمرير و TOTP في الذاكرة",
+  "passConfirmedAccess": "دخول مؤكد · تصريح TOTP آمن",
+  "passZoneSeat": "المنطقة: {zone} · المقعد: {seat}",
+  "@passZoneSeat": {
+    "placeholders": {
+      "zone": {
+        "type": "String"
+      },
+      "seat": {
+        "type": "String"
+      }
+    }
+  },
+  "passUnavailableTitle": "التصريح غير متاح",
+  "passUnavailableConsumed": "تم استخدام هذا التصريح بالفعل. الدخول لمرة واحدة فقط.",
+  "passUnavailableInvalid": "لم يعد هذا التصريح صالحًا.",
+  "passSkewBadge": "انحراف > {seconds} ث",
+  "@passSkewBadge": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "passAuthProtocol": "{reference} · بروتوكول مصادقة البوابة",
+  "@passAuthProtocol": {
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "passSkewTitle": "وقت الجهاز غير متزامن",
+  "passSkewMessage": "تجاوز انحراف الساعة {seconds} ثانية. تم إخفاء رمز QR الديناميكي حفاظًا على سلامة الدخول وفق سياسة الأمان {policy}.",
+  "@passSkewMessage": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      },
+      "policy": {
+        "type": "String"
+      }
+    }
+  },
+  "passHolderLabel": "حامل التصريح",
+  "passAssignedSeat": "المقعد المخصص",
+  "passQrSuppressed": "تم إخفاء رمز QR ({policy})",
+  "@passQrSuppressed": {
+    "placeholders": {
+      "policy": {
+        "type": "String"
+      }
+    }
+  },
+  "passManualCodeLabel": "رمز الدخول اليدوي البديل",
+  "passManualCodeHelp": "قدّم رمز الطوارئ المكوّن من 8 أرقام مباشرةً إلى الموظف عند بوابة الدخول للتحقق اليدوي.",
+  "passOffsetReadout": "الإزاحة: {offset}",
+  "@passOffsetReadout": {
+    "placeholders": {
+      "offset": {
+        "type": "String"
+      }
+    }
+  },
+  "passHashReadout": "البصمة: {hash}",
+  "@passHashReadout": {
+    "placeholders": {
+      "hash": {
+        "type": "String"
+      }
+    }
+  },
+  "passResyncAction": "محاولة إعادة مزامنة الوقت",
+  "passStaffOverride": "يمكن لموظفي البوابة الإدخال اليدوي عبر لوحة المفاتيح",
+  "passResyncFailed": "تعذّر الوصول إلى خادم الوقت. الرمز البديل ما زال صالحًا.",
+  "passResyncStillSkewed": "الساعة ما زالت غير متزامنة. واصل استخدام الرمز البديل.",
+  "walletTitle": "تذاكري",
+  "walletUpcoming": "القادمة",
+  "walletPast": "السابقة",
+  "walletEmptyTitle": "لا توجد تذاكر بعد",
+  "walletEmptyMessage": "ستظهر هنا التذاكر التي تشتريها، جاهزة للعرض عند البوابة.",
+  "walletBrowseEvents": "تصفّح الفعاليات",
+  "walletStatusValid": "صالحة",
+  "walletStatusUsed": "مستخدمة",
+  "walletStatusRefunded": "مستردة",
+  "walletStatusExpired": "منتهية",
+  "ticketOrderReference": "الطلب {reference}",
+  "@ticketOrderReference": {
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "ticketSeatLabel": "المقعد",
+  "ticketZoneLabel": "المنطقة",
+  "ticketGateLabel": "البوابة",
+  "ticketPaidLabel": "المدفوع",
+  "ticketPurchasedOn": "تم الشراء في {date}",
+  "@ticketPurchasedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "ticketPresentAction": "العرض عند البوابة",
+  "ticketCannotPresent": "لم يعد بالإمكان عرض هذه التذكرة.",
+  "ticketMissingTitle": "التذكرة غير موجودة",
+  "ticketMissingMessage": "قد تكون التذكرة قد نُقلت أو أن الرابط لم يعد صالحًا.",
+  "ticketViewEvent": "عرض الفعالية",
+  "confirmationSettlingTitle": "جارٍ تأكيد عملية الدفع",
+  "confirmationSettlingMessage": "يستغرق ذلك عادةً بضع ثوانٍ. لا تغلق التطبيق.",
+  "confirmationTitle": "تم تأكيد الشراء",
+  "confirmationMessage": "تذكرتك جاهزة. اعرضها عند البوابة لدى وصولك.",
+  "confirmationViewTicket": "عرض تذكرتي",
+  "confirmationGoToWallet": "الذهاب إلى تذاكري",
+  "confirmationPendingTitle": "الدفع يستغرق وقتًا أطول من المعتاد",
+  "confirmationPendingMessage": "إذا تمت عملية الدفع بنجاح، ستظهر تذكرتك في «تذاكري» قريبًا. لم يتم خصم المبلغ مرتين.",
+  "conciergeTitle": "المساعد",
+  "conciergeSubtitle": "اسأل عن البوابات والمقاعد وتذاكرك",
+  "conciergeEmptyTitle": "كيف يمكنني المساعدة؟",
+  "conciergeEmptyMessage": "اسأل عن مواعيد فتح البوابات، أو موقع مقعدك، أو ما تشمله تذكرتك.",
+  "conciergeComposerHint": "اطرح سؤالًا",
+  "conciergeSend": "إرسال",
+  "conciergeThinking": "جارٍ التفكير…",
+  "conciergeInterrupted": "انقطعت الإجابة",
+  "conciergeRetry": "إعادة المحاولة",
+  "conciergeSources": "المصادر",
+  "conciergeOfflineTitle": "المساعد يحتاج إلى اتصال",
+  "conciergeOfflineMessage": "يتم البحث عن الإجابات على خوادمنا، لذا لا يعمل المساعد دون اتصال. تذاكرك تبقى متاحة في «تذاكري».",
+  "conciergeClear": "مسح المحادثة",
+  "conciergeDisclaimer": "قد تكون الإجابات غير كاملة. راجع تذكرتك للتفاصيل النهائية.",
+  "conciergeSuggestionGates": "متى تُفتح البوابات؟",
+  "conciergeSuggestionSeat": "أين مقعدي؟",
+  "conciergeSuggestionRefund": "ما سياسة الاسترداد؟",
+  "profileTitle": "الملف الشخصي",
+  "profileAccountSection": "الحساب",
+  "profileSecuritySection": "الأمان",
+  "profileAppSection": "التطبيق",
+  "profileEmailLabel": "البريد الإلكتروني",
+  "profilePhoneLabel": "رقم الجوال",
+  "profileMemberSince": "عضو منذ {date}",
+  "@profileMemberSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "profileDeviceLabel": "هذا الجهاز",
+  "profileDeviceNote": "تصاريحك مرتبطة بهذا الجهاز ولا يمكن عرضها من جهاز آخر.",
+  "profileLanguageLabel": "اللغة",
+  "profileLanguageSystem": "لغة النظام",
+  "profileSignOut": "تسجيل الخروج",
+  "profileSignOutTitle": "تسجيل الخروج من تذكرة؟",
+  "profileSignOutMessage": "تبقى تذاكرك في حسابك، لكن لن يتمكن هذا الجهاز من عرضها حتى تسجّل الدخول مرة أخرى.",
+  "profileSignOutConfirm": "تسجيل الخروج",
+  "profileStay": "البقاء مسجّلًا",
+  "profileVersion": "الإصدار {version} ({build})",
+  "@profileVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      },
+      "build": {
+        "type": "String"
+      }
+    }
+  }
+}

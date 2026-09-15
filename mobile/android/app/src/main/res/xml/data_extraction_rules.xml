@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Backup and transfer rules for Android 12 (API 31) and above.
+
+  Everything is excluded, deliberately. This app stores ticket grants and the
+  device private key that signs presentation proofs; the anti-fraud model rests
+  on that key being bound to one device. Allowing cloud backup or device-to-
+  device transfer would let it be restored elsewhere and undo that guarantee.
+
+  A user who reinstalls or moves to a new phone re-authenticates and the device
+  registers a fresh keypair. That is the intended path, not a shortfall.
+
+  Pairs with android:allowBackup="false" in the manifest, which covers
+  API 30 and below.
+-->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="root" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+        <exclude domain="file" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="root" />
+        <exclude domain="database" />
+        <exclude domain="sharedpref" />
+        <exclude domain="external" />
+        <exclude domain="file" />
+    </device-transfer>
+</data-extraction-rules>

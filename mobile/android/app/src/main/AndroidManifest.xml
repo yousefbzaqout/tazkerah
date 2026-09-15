@@ -1,0 +1,86 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- INTERNET is implied for debug builds but must be declared for release. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Phase 6 (local notifications) adds:
+           POST_NOTIFICATIONS     — Android 13+ runtime grant, requested after a
+                                    ticket is purchased so the reason is obvious.
+           RECEIVE_BOOT_COMPLETED — lets scheduled reminders survive a reboot.
+         Both are declared then, not now: a permission the app does not exercise
+         still shows on the Play listing and invites review questions. -->
+
+
+    <!-- Backup is disabled deliberately. Auto Backup would copy app data to the
+         user's Google account, which for this app would mean ticket grants and
+         device key material leaving the device and potentially restoring onto a
+         different one. Device binding is the core of the anti-fraud model, so
+         allowBackup must stay false. -->
+    <application
+        android:label="Tazkerah"
+        android:name="${applicationName}"
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:fullBackupContent="false"
+        android:dataExtractionRules="@xml/data_extraction_rules">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/LaunchTheme"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustResize">
+            <!-- Specifies an Android theme to apply to this Activity as soon as
+                 the Android process has started. This theme is visible to the user
+                 while the Flutter UI initializes. After that, this theme continues
+                 to determine the Window background behind the Flutter UI. -->
+            <meta-data
+              android:name="io.flutter.embedding.android.NormalTheme"
+              android:resource="@style/NormalTheme"
+              />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+            <!-- App Links for https://tazkerah.app/*.
+                 android:autoVerify requires assetlinks.json to be served from
+                 https://tazkerah.app/.well-known/assetlinks.json, carrying this
+                 app's signing-certificate fingerprint. Until that file is live,
+                 Android shows a chooser instead of opening the app directly.
+                 Verify with:
+                   adb shell pm get-app-links com.example.tazkerah -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https" android:host="tazkerah.app"/>
+            </intent-filter>
+
+            <!-- Custom scheme, for contexts that cannot use an https link
+                 (some in-app browsers, QR codes printed on materials). -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="tazkerah"/>
+            </intent-filter>
+        </activity>
+        <!-- Don't delete the meta-data below.
+             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+        <meta-data
+            android:name="flutterEmbedding"
+            android:value="2" />
+    </application>
+    <!-- Required to query activities that can process text, see:
+         https://developer.android.com/training/package-visibility and
+         https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
+
+         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.PROCESS_TEXT"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+    </queries>
+</manifest>

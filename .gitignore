@@ -1,31 +1,12 @@
-*.log
+# Repository-wide ignores only.
+#
+# This is a monorepo: Laravel lives in backend/, Flutter in mobile/. Each keeps
+# its own .gitignore with the rules for its toolchain, because a root-anchored
+# path here (/build, /vendor) would mean the wrong directory for at least one
+# of them.
+
 .DS_Store
-.env
-.env.backup
-.env.production
-.phpactor.json
-.phpunit.result.cache
-/.codex
-/.cursor/
-/.idea
-/.nova
-/.phpunit.cache
-/.vscode
-/.zed
-/auth.json
-/node_modules
-/public/build
-/public/fonts-manifest.dev.json
-/public/hot
-/public/storage
-/storage/*.key
-/storage/pail
-/vendor
-_ide_helper.php
-Homestead.json
-Homestead.yaml
 Thumbs.db
+
 # Windows zone identifiers
 *:Zone.Identifier
-
-

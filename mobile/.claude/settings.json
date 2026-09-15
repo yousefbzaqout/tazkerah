@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dart --version)",
+      "Bash(flutter pub *)",
+      "Bash(timeout 540 flutter build apk --debug)",
+      "Bash(flutter build *)",
+      "Bash(grep -v '^\\\\s*$')",
+      "Bash(grep -v '^[[:space:]]*$')",
+      "Bash(flutter clean *)",
+      "Bash(grep -rn \"minSdkVersion\" ~/Development/flutter/packages/flutter_tools/gradle/src/main/kotlin/FlutterExtension.kt 2>/dev/null | head -5; echo \"=== fallback search ===\"; grep -rn \"minSdkVersion = \\\\|val minSdkVersion\" ~/Development/flutter/packages/flutter_tools/gradle/ 2>/dev/null | head -5)",
+      "Read(//Users/h/Development/flutter/packages/flutter_tools/gradle/src/main/kotlin/**)",
+      "Read(//Users/h/Development/flutter/packages/flutter_tools/gradle/**)",
+      "mcp__claude_ai_Figma__get_figma_skill",
+      "mcp__claude_ai_Figma__get_design_context",
+      "mcp__claude_ai_Figma__get_variable_defs",
+      "Bash(mkdir -p assets/icons)",
+      "Bash(curl -s -o ticket_emblem.svg \"https://www.figma.com/api/mcp/asset/fc4ca78e-0609-4848-b327-9cd78160ff7a.svg\")",
+      "Bash(curl -s -o wifi_off.svg \"https://www.figma.com/api/mcp/asset/f76d1b49-ae4f-46fa-91fd-a17e8a01ee86.svg\")",
+      "Bash(curl -s -o refresh.svg \"https://www.figma.com/api/mcp/asset/8b5cff7d-1131-47f1-ad69-4134d156a67e.svg\")",
+      "Bash(mkdir -p assets/fonts)",
+      "Bash(curl -sL -o SpaceGrotesk-Regular.ttf __TRACKED_VAR__/ofl/spacegrotesk/static/SpaceGrotesk-Regular.ttf)",
+      "Bash(curl -sL -o SpaceGrotesk-Medium.ttf __TRACKED_VAR__/ofl/spacegrotesk/static/SpaceGrotesk-Medium.ttf)",
+      "Bash(curl -sL -o SpaceGrotesk-SemiBold.ttf __TRACKED_VAR__/ofl/spacegrotesk/static/SpaceGrotesk-SemiBold.ttf)",
+      "Bash(curl -sL -o SpaceGrotesk-Bold.ttf __TRACKED_VAR__/ofl/spacegrotesk/static/SpaceGrotesk-Bold.ttf)",
+      "Bash(curl -sL -o SpaceGrotesk-VF.ttf \"https://raw.githubusercontent.com/google/fonts/main/ofl/spacegrotesk/SpaceGrotesk%5Bwght%5D.ttf\")",
+      "Bash(file *.ttf)",
+      "Bash(perl -0pi -e \"s/      fontFamily: sansFamily,\\\\n/      fontFamily: sansFamily,\\\\n      fontFamilyFallback: sansFallback,\\\\n/g\" lib/app/theme/app_typography.dart)",
+      "Bash(echo \"--- exit: $?\")",
+      "Bash(rm -rf /Users/h/Developer/noblilityapp/build /Users/h/Developer/Mushaf-Qatar/build /Users/h/Developer/Rewaa_Portfolio/build)",
+      "Bash(rm -rf /Users/h/Library/Developer/Xcode/DerivedData/*)"
+    ]
+  }
+}

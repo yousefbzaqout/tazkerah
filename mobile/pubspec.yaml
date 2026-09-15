@@ -1,0 +1,103 @@
+name: tazkerah
+description: "Tazkerah — event ticketing attendee application."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # State management. Chosen over BLoC per approved architecture; compile-safe
+  # provider graph, and `ref.watch` composition suits the stream-heavy flows
+  # (seat availability, hold countdowns, QR rotation) coming in later phases.
+  flutter_riverpod: ^3.0.2
+
+  # Navigation + deep linking (universal links / app links land here).
+  go_router: ^16.2.4
+
+  # REST client. Interceptors give us one place for auth, clock sync and
+  # error mapping — see core/network.
+  dio: ^5.9.0
+
+  # OS-backed key storage: Keychain (iOS) / EncryptedSharedPreferences (Android).
+  flutter_secure_storage: ^9.2.4
+
+  # Opens the hosted payment gateway and shares an event link. Chosen over a
+  # hand-written platform channel because the URL-scheme and intent handling
+  # differs per OS version and this package tracks it.
+  #
+  # Note it can only *launch* a URL. Nothing about the payment is decided here:
+  # the app hands the order to the gateway and then waits for a ticket the
+  # backend issued — see OrderConfirmationController.
+  url_launcher: ^6.3.1
+
+  # Reads the real app version for the profile screen.
+  #
+  # Added rather than hard-coding a string: a constant would silently drift
+  # from pubspec, and a version a user reads out to support has to be true.
+  package_info_plus: ^8.1.2
+
+  # QR rendering for the gate pass. Renders a payload the server issues — it
+  # generates no codes and holds no key material, so adding it does not widen
+  # the ticket's trust boundary. Pure Dart, no platform channel.
+  qr_flutter: ^4.1.0
+
+  # Message formatting + locale plumbing used by the generated l10n code.
+  # Version left unpinned deliberately: flutter_localizations pins intl from
+  # the SDK, and a fixed constraint here would conflict on every Flutter
+  # upgrade.
+  intl: any
+
+  # NOTE — deferred to Phase 6, not forgotten:
+  #   flutter_local_notifications + timezone
+  # Both were removed in the dependency audit because no code imports them yet.
+  # flutter_local_notifications forces core library desugaring into every
+  # Android build and drags in Linux/Windows implementations we do not ship.
+  # Re-add both together when the notification scheduler is actually built;
+  # timezone is not optional alongside it, because reminders must fire in the
+  # event's timezone rather than the device's.
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+
+  assets:
+    - assets/icons/
+
+  fonts:
+    # Latin display and UI face, named in the design.
+    # Variable font: one file covers 300-700, so the weights below are all
+    # served from the same source.
+    - family: SpaceGrotesk
+      fonts:
+        - asset: assets/fonts/SpaceGrotesk-VF.ttf
+
+    # Monospace face, named in the design. Carries the OTP digits, seat ids,
+    # timers and reference codes. Pinned rather than left to the platform so
+    # those values look identical on both — a countdown that changes metrics
+    # between iOS and Android is a layout bug waiting to happen.
+    - family: JetBrainsMono
+      fonts:
+        - asset: assets/fonts/JetBrainsMono-VF.ttf
+
+    # Arabic face. Space Grotesk has no Arabic coverage, so Tajawal is not a
+    # stylistic preference — it is what renders the Arabic locale at all.
+    - family: Tajawal
+      fonts:
+        - asset: assets/fonts/Tajawal-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Tajawal-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Tajawal-Bold.ttf
+          weight: 700
