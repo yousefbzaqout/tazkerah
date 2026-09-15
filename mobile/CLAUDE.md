@@ -181,7 +181,17 @@ Two locales: **English** (`app_en.arb`, the template, carries descriptions) and
   compiled into the binary is readable by anyone who downloads it. `AppConfig`
   carries endpoints and timeouts only.
 - Network logging is off in production (bodies carry tokens and personal data);
-  certificate pinning is enforced only in production (Phase 8).
+  certificate pinning is enforced only in production, and only once pins are
+  supplied:
+  ```bash
+  --dart-define=CERTIFICATE_PINS=<base64 SPKI sha256>,<backup pin>
+  ```
+  Pins are **SPKI** hashes, not certificate hashes — a certificate is reissued
+  on every renewal, and pinning it would brick installed apps. Always ship a
+  backup pin for a key not yet deployed; with one pin, losing that key leaves
+  no route to the server but a store update. A production build without pins
+  fails an assert at startup rather than silently running unpinned. No pins are
+  configured yet: the production domain does not exist.
 
 ## Testing
 

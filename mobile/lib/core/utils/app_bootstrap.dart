@@ -2,6 +2,7 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/services.dart';
 
+import '../../app/config/app_config.dart';
 import '../platform/app_info.dart';
 
 /// Work that must complete before the first frame.
@@ -20,6 +21,7 @@ abstract final class AppBootstrap {
   /// frame synchronous — a screen that has to await its own version number
   /// would flicker.
   static Future<BootstrapResult> run() async {
+    _assertTransportSecurity();
     await _lockOrientation();
 
     final appInfo = PackageAppInfo();
@@ -54,11 +56,33 @@ abstract final class AppBootstrap {
     ]);
   }
 
-  // Phase 6 adds timezone-database initialization here, alongside the
-  // notification scheduler. It must run before anything is scheduled:
-  // reminders fire relative to the *event's* timezone, not the device's, so a
-  // ticket bought in Riyadh for a Dubai event alerts on Dubai time and a
-  // traveller crossing zones does not have reminders silently shift.
+  /// Fails a debug build that would ship without certificate pinning.
+  ///
+  /// An assert rather than a thrown error, so it stops a developer and a CI
+  /// run but never a user's release: by the time a build is in someone's
+  /// hands, crashing on launch is a worse outcome than an unpinned connection.
+  ///
+  /// This exists because the failure it catches is silent. A production build
+  /// without `CERTIFICATE_PINS` connects perfectly happily and simply has no
+  /// pinning — there is nothing to notice unless something checks.
+  static void _assertTransportSecurity() {
+    assert(() {
+      final config = AppConfig.fromEnvironment();
+      if (config.missingProductionPins) {
+        throw StateError(
+          'Production build has no certificate pins. Pass them with '
+          '--dart-define=CERTIFICATE_PINS=<base64 SPKI sha256>,<backup>. '
+          'See CertificatePinner for how to compute one.',
+        );
+      }
+      return true;
+    }());
+  }
+
+  // Timezone-database initialization lives in LocalReminderScheduler rather
+  // than here: it is only needed once something is actually scheduled, and
+  // loading the IANA database on the splash screen would be startup cost paid
+  // by every launch for a feature most of them never reach.
 }
 
 /// What startup produced, for the provider scope to be seeded with.

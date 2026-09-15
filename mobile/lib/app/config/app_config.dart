@@ -17,6 +17,7 @@ class AppConfig {
     required this.connectTimeout,
     required this.receiveTimeout,
     required this.sendTimeout,
+    this.certificatePins = const {},
   });
 
   /// Reads configuration from the compile-time environment, with defaults
@@ -36,7 +37,20 @@ class AppConfig {
       connectTimeout: const Duration(seconds: 15),
       receiveTimeout: const Duration(seconds: 30),
       sendTimeout: const Duration(seconds: 30),
+      certificatePins: _parsePins(
+        const String.fromEnvironment('CERTIFICATE_PINS'),
+      ),
     );
+  }
+
+  /// Splits the comma-separated pin list, ignoring blanks so a trailing comma
+  /// or an unset define does not produce an empty pin that matches nothing.
+  static Set<String> _parsePins(String raw) {
+    return raw
+        .split(',')
+        .map((pin) => pin.trim())
+        .where((pin) => pin.isNotEmpty)
+        .toSet();
   }
 
   final AppEnvironment environment;
@@ -45,18 +59,44 @@ class AppConfig {
   final Duration receiveTimeout;
   final Duration sendTimeout;
 
+  /// Base64 SHA-256 hashes of the SubjectPublicKeyInfo the API may present.
+  ///
+  /// Not a secret — a pin is a hash of a *public* key, and anyone can compute
+  /// it from a TLS handshake — so it belongs in `--dart-define` alongside the
+  /// endpoint rather than in secure storage.
+  ///
+  /// Supplied as a comma-separated list. Empty means pinning is not
+  /// configured, which is the current state: the production domain does not
+  /// exist yet, so there is no certificate to pin against.
+  final Set<String> certificatePins;
+
   /// Whether verbose network logging is permitted.
   ///
   /// False in production: request and response bodies carry tokens and
   /// personal data, and on Android any app with log access could read them.
   bool get enableNetworkLogging => environment != AppEnvironment.production;
 
-  /// Whether TLS certificate pinning must be enforced.
+  /// Whether TLS certificate pinning is enforced.
   ///
   /// Off outside production so proxy tools (Charles, mitmproxy) still work
-  /// during development. Wiring lands in Phase 8.
+  /// during development.
+  ///
+  /// Also off when no pins are configured. That is not a loophole to be closed
+  /// later: enforcing an empty pin set would refuse *every* certificate, and
+  /// the resulting failure is indistinguishable from the server being down —
+  /// so a release built without the define would look like an outage rather
+  /// than a misconfiguration. [missingProductionPins] is the signal that this
+  /// has happened, and it is asserted at startup.
   bool get enforceCertificatePinning =>
-      environment == AppEnvironment.production;
+      environment == AppEnvironment.production && certificatePins.isNotEmpty;
+
+  /// A production build that carries no pins.
+  ///
+  /// Checked at startup rather than left to be noticed in a pen test: this is
+  /// exactly the condition where the app silently loses the protection it
+  /// claims to have.
+  bool get missingProductionPins =>
+      environment == AppEnvironment.production && certificatePins.isEmpty;
 }
 
 enum AppEnvironment {

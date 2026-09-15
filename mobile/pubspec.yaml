@@ -87,6 +87,11 @@ dependencies:
   # to present a ticket later.
   screen_brightness: ^2.1.11
 
+  # SHA-256 for certificate pinning. Already in the tree transitively, declared
+  # here because it is imported directly — an undeclared import breaks the
+  # moment the package that pulled it in drops the dependency.
+  crypto: ^3.0.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

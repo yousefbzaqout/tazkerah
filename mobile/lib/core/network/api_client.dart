@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 
 import '../../app/config/app_config.dart';
 import '../errors/error_mapper.dart';
 import '../errors/failure.dart';
 import '../utils/clock.dart';
+import 'certificate_pinning.dart';
 import 'interceptors/auth_interceptor.dart';
 import 'interceptors/clock_sync_interceptor.dart';
 import 'interceptors/logging_interceptor.dart';
@@ -43,6 +45,29 @@ class ApiClient {
       ClockSyncInterceptor(clock: clock),
       if (config.enableNetworkLogging) LoggingInterceptor(),
     ]);
+
+    if (config.enforceCertificatePinning) {
+      _applyPinning(CertificatePinner(pins: config.certificatePins));
+    }
+  }
+
+  /// Rejects any certificate that does not carry a pinned public key.
+  ///
+  /// Installed on the adapter, not as an interceptor: the decision belongs in
+  /// the TLS handshake, and an interceptor runs once the connection is already
+  /// established and the request has been sent.
+  ///
+  /// `validateCertificate` runs *after* the platform has validated the chain,
+  /// so this narrows trust rather than replacing it. A certificate the OS
+  /// rejects never reaches here, and one it accepts still has to carry a
+  /// pinned key.
+  void _applyPinning(CertificatePinner pinner) {
+    _dio.httpClientAdapter = IOHttpClientAdapter(
+      validateCertificate: (certificate, host, port) {
+        if (certificate == null) return false;
+        return pinner.allows(certificate);
+      },
+    );
   }
 
   final Dio _dio;
