@@ -561,5 +561,10 @@
         "type": "String"
       }
     }
-  }
+  },
+  "notificationChannelRemindersName": "تذكيرات الفعاليات",
+  "notificationChannelRemindersDescription": "تذكيرات قبل فعالية تملك تذكرة لها.",
+  "reminderDayBeforeTitle": "{eventTitle} غدًا",
+  "reminderHoursBeforeTitle": "{eventTitle} تبدأ قريبًا",
+  "reminderBody": "{time} في {venue}. تذكرتك داخل التطبيق."
 }

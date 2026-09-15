@@ -1,12 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- INTERNET is implied for debug builds but must be declared for release. -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- Phase 6 (local notifications) adds:
-           POST_NOTIFICATIONS     — Android 13+ runtime grant, requested after a
-                                    ticket is purchased so the reason is obvious.
-           RECEIVE_BOOT_COMPLETED — lets scheduled reminders survive a reboot.
-         Both are declared then, not now: a permission the app does not exercise
-         still shows on the Play listing and invites review questions. -->
+    <!-- Android 13+ runtime grant. Requested when the wallet first holds a
+         ticket, not at launch: asked cold, before the user knows what the app
+         is, a refusal is the likely answer and it is permanent. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- The OS drops pending notifications on reboot. This lets the plugin's
+         receiver restore them without waiting for the user to reopen the app;
+         the app also reschedules on launch, because this permission alone does
+         not cover a reinstall. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
 
     <!-- Backup is disabled deliberately. Auto Backup would copy app data to the
@@ -66,6 +69,20 @@
                 <data android:scheme="tazkerah"/>
             </intent-filter>
         </activity>
+        <!-- Reschedules pending reminders after a reboot. Without this
+             receiver the RECEIVE_BOOT_COMPLETED permission above does nothing:
+             the OS clears the alarm queue on restart and reminders would only
+             come back the next time the user happened to open the app. -->
+        <receiver
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+            </intent-filter>
+        </receiver>
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../features/notifications/presentation/reminder_providers.dart';
 import '../l10n/generated/app_localizations.dart';
+import 'reminder_sync.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
 
@@ -34,6 +36,29 @@ class TazkerahApp extends ConsumerWidget {
 
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+
+      // Reminder scheduling is mounted above the router, not on the wallet
+      // screen. The OS drops pending notifications on reboot and reinstall, so
+      // the reconcile has to run whenever the app runs rather than only when
+      // the user happens to open a particular tab.
+      //
+      // Deliberately not a nested ProviderScope: that would build a second
+      // container, and ReminderSync would then watch a different wallet than
+      // the screens do. The locale reaches the scheduler through a provider
+      // this widget keeps current instead.
+      builder: (context, child) {
+        final locale = Localizations.localeOf(context);
+        return Consumer(
+          builder: (context, ref, _) {
+            // Set during build, so deferred to avoid mutating a provider
+            // while the tree is being built.
+            Future.microtask(
+              () => ref.read(reminderLocaleProvider.notifier).set(locale),
+            );
+            return ReminderSync(child: child ?? const SizedBox.shrink());
+          },
+        );
+      },
     );
   }
 }

@@ -12,10 +12,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-        // Core library desugaring was removed alongside
-        // flutter_local_notifications in the dependency audit. Phase 6 must
-        // restore both together — that plugin fails the AAR metadata check
-        // without it (see the coreLibraryDesugaring dependency below).
+        // Required by flutter_local_notifications, which fails the AAR
+        // metadata check without it. It is a cost of that plugin rather than
+        // a choice: it rewrites java.time and friends for older API levels,
+        // which lengthens every Android build.
+        isCoreLibraryDesugaringEnabled = true
     }
 
     defaultConfig {
@@ -53,12 +54,10 @@ flutter {
     source = "../.."
 }
 
-// Phase 6, when flutter_local_notifications returns, needs both of these back:
-//
-//   compileOptions { isCoreLibraryDesugaringEnabled = true }
-//   dependencies {
-//       coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
-//   }
-//
-// Without them the build fails at :app:checkDebugAarMetadata rather than at
-// compile time, which is a confusing error to meet cold.
+dependencies {
+    // Pairs with isCoreLibraryDesugaringEnabled above; both are required by
+    // flutter_local_notifications. Removing either fails the build at
+    // :app:checkDebugAarMetadata rather than at compile time, which is a
+    // confusing error to meet cold.
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+}

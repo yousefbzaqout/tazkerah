@@ -1741,6 +1741,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version {version} ({build})'**
   String profileVersion(String version, String build);
+
+  /// Name of the Android notification channel for event reminders, shown in system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Event reminders'**
+  String get notificationChannelRemindersName;
+
+  /// Description of the Android notification channel, shown in system settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders before an event you have a ticket for.'**
+  String get notificationChannelRemindersDescription;
+
+  /// Title of the reminder delivered 24 hours before an event.
+  ///
+  /// In en, this message translates to:
+  /// **'{eventTitle} is tomorrow'**
+  String reminderDayBeforeTitle(String eventTitle);
+
+  /// Title of the reminder delivered 2 hours before an event.
+  ///
+  /// In en, this message translates to:
+  /// **'{eventTitle} starts soon'**
+  String reminderHoursBeforeTitle(String eventTitle);
+
+  /// Body of an event reminder. The time is already expressed in the venue's timezone.
+  ///
+  /// In en, this message translates to:
+  /// **'{time} at {venue}. Your ticket is in the app.'**
+  String reminderBody(String time, String venue);
 }
 
 class _AppLocalizationsDelegate

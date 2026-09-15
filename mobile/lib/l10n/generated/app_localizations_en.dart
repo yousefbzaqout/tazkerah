@@ -946,4 +946,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String profileVersion(String version, String build) {
     return 'Version $version ($build)';
   }
+
+  @override
+  String get notificationChannelRemindersName => 'Event reminders';
+
+  @override
+  String get notificationChannelRemindersDescription =>
+      'Reminders before an event you have a ticket for.';
+
+  @override
+  String reminderDayBeforeTitle(String eventTitle) {
+    return '$eventTitle is tomorrow';
+  }
+
+  @override
+  String reminderHoursBeforeTitle(String eventTitle) {
+    return '$eventTitle starts soon';
+  }
+
+  @override
+  String reminderBody(String time, String venue) {
+    return '$time at $venue. Your ticket is in the app.';
+  }
 }

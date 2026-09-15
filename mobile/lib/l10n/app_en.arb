@@ -1316,5 +1316,43 @@
         "type": "String"
       }
     }
+  },
+  "notificationChannelRemindersName": "Event reminders",
+  "@notificationChannelRemindersName": {
+    "description": "Name of the Android notification channel for event reminders, shown in system settings."
+  },
+  "notificationChannelRemindersDescription": "Reminders before an event you have a ticket for.",
+  "@notificationChannelRemindersDescription": {
+    "description": "Description of the Android notification channel, shown in system settings."
+  },
+  "reminderDayBeforeTitle": "{eventTitle} is tomorrow",
+  "@reminderDayBeforeTitle": {
+    "description": "Title of the reminder delivered 24 hours before an event.",
+    "placeholders": {
+      "eventTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderHoursBeforeTitle": "{eventTitle} starts soon",
+  "@reminderHoursBeforeTitle": {
+    "description": "Title of the reminder delivered 2 hours before an event.",
+    "placeholders": {
+      "eventTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderBody": "{time} at {venue}. Your ticket is in the app.",
+  "@reminderBody": {
+    "description": "Body of an event reminder. The time is already expressed in the venue's timezone.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      },
+      "venue": {
+        "type": "String"
+      }
+    }
   }
 }

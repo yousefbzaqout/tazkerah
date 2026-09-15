@@ -54,14 +54,20 @@ dependencies:
   # upgrade.
   intl: any
 
-  # NOTE — deferred to Phase 6, not forgotten:
-  #   flutter_local_notifications + timezone
-  # Both were removed in the dependency audit because no code imports them yet.
-  # flutter_local_notifications forces core library desugaring into every
-  # Android build and drags in Linux/Windows implementations we do not ship.
-  # Re-add both together when the notification scheduler is actually built;
-  # timezone is not optional alongside it, because reminders must fire in the
-  # event's timezone rather than the device's.
+  # Local event reminders, 24h and 2h before an event. Scheduling is entirely
+  # on-device — it reads tickets the app already holds and contacts nothing —
+  # which is why reminders keep working with no network.
+  #
+  # The cost, accepted knowingly: this forces core library desugaring into
+  # every Android build (see coreLibraryDesugaring in app/build.gradle.kts) and
+  # ships Linux/Windows implementations this app does not use.
+  flutter_local_notifications: ^19.4.2
+
+  # Not optional alongside the above, and not a transitive convenience: an
+  # event's start time is a property of the venue, so a reminder must be
+  # anchored to the venue's zone rather than wherever the handset happens to
+  # be. `TZDateTime` is also the only type zonedSchedule accepts.
+  timezone: ^0.10.1
 
 dev_dependencies:
   flutter_test:

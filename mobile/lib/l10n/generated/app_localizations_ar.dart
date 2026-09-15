@@ -947,4 +947,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String profileVersion(String version, String build) {
     return 'الإصدار $version ($build)';
   }
+
+  @override
+  String get notificationChannelRemindersName => 'تذكيرات الفعاليات';
+
+  @override
+  String get notificationChannelRemindersDescription =>
+      'تذكيرات قبل فعالية تملك تذكرة لها.';
+
+  @override
+  String reminderDayBeforeTitle(String eventTitle) {
+    return '$eventTitle غدًا';
+  }
+
+  @override
+  String reminderHoursBeforeTitle(String eventTitle) {
+    return '$eventTitle تبدأ قريبًا';
+  }
+
+  @override
+  String reminderBody(String time, String venue) {
+    return '$time في $venue. تذكرتك داخل التطبيق.';
+  }
 }
