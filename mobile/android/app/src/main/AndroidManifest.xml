@@ -49,7 +49,7 @@
                  app's signing-certificate fingerprint. Until that file is live,
                  Android shows a chooser instead of opening the app directly.
                  Verify with:
-                   adb shell pm get-app-links com.example.tazkerah -->
+                   adb shell pm get-app-links app.tazkerah.mobile -->
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>

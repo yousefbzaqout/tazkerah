@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.tazkerah"
+    namespace = "app.tazkerah.mobile"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -19,9 +19,11 @@ android {
     }
 
     defaultConfig {
-        // TODO: Replace before any store submission — com.example.* is rejected
-        // by Play, and the id is permanent once published.
-        applicationId = "com.example.tazkerah"
+        // Permanent once published: Play will not accept a different id for
+        // this listing afterwards, and changing it ships a second app rather
+        // than an update. Matches the iOS bundle identifier and the
+        // tazkerah.app domain that App Links verify against.
+        applicationId = "app.tazkerah.mobile"
         // Inherits Flutter's default, currently 24. That already clears the
         // API 23 floor that flutter_secure_storage needs for
         // EncryptedSharedPreferences and that the hardware-backed Keystore

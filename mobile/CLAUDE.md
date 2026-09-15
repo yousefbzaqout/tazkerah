@@ -197,10 +197,12 @@ Two locales: **English** (`app_en.arb`, the template, carries descriptions) and
 
 ## Pre-store Open Items
 
+The app identity is **`app.tazkerah.mobile`** on both platforms (Android
+`applicationId` + `namespace`, iOS `PRODUCT_BUNDLE_IDENTIFIER`; tests are
+`app.tazkerah.mobile.RunnerTests`). On Android it is **permanent once
+published** — do not change it.
+
 Not yet done, and required before any store submission:
-- `applicationId` is still `com.example.tazkerah`. On Android the id is
-  **permanent once published** — change it before the first upload.
-- The iOS bundle identifier needs setting in Xcode alongside it.
 - Universal Links / App Links need `apple-app-site-association` and
   `assetlinks.json` served from the production domain before deep links open
   the app without a chooser.

@@ -55,9 +55,6 @@ questions on ticket cryptography that block Phase 5.
 
 ## Notes for the next phase
 
-- `applicationId` is still `com.example.tazkerah` and must change before any
-  store submission; on Android the id is permanent once published.
-- The iOS bundle identifier needs setting in Xcode alongside it.
 - Universal links and App Links need `apple-app-site-association` and
   `assetlinks.json` served from the production domain before deep links open
   the app without a chooser.
