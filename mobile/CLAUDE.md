@@ -1,8 +1,8 @@
 # Tazkerah — Project Rules
 
 Attendee mobile application for the Tazkerah **event ticketing** platform.
-Flutter, iOS + Android, app at the **repository root** (`lib/`, `assets/`,
-`pubspec.yaml` at the top level).
+Flutter, iOS + Android. The app lives in **`mobile/`** within the monorepo
+(`lib/`, `assets/`, `pubspec.yaml` are under `mobile/`, not the repo root).
 
 These rules are **mandatory** and override default tooling behavior.
 Background reading, kept current — read before non-trivial work:
@@ -45,25 +45,26 @@ around them, and do not treat either as settled:
 
 ## Version Control — currently none
 
-⚠️ **This directory is not a git repository.** There is no `.git`, no remote,
-no branches, no worktrees, no hooks, and no LFS.
+This tree **is** under version control, and it is a **monorepo**. The Flutter
+app is no longer at the repository root — it sits under `mobile/`.
 
-- **Never** invent or assume git state — do not report branches, diffs, or
-  history, and do not run commit/push/rebase flows that silently fail.
-- If asked to commit, branch, or open a PR, say the repo is untracked first and
-  offer `git init`. Do not `git init` unprompted — initializing changes how
-  every later session reasons about the tree.
-- Because nothing is versioned, **every edit is destructive**. Read a file
-  before overwriting it, keep changes reviewable, and never mass-delete or
-  regenerate directories on assumption.
+```
+tazkerah/                 repo root
+├── backend/              Laravel — composer.json, app/, routes/
+└── mobile/               Flutter — pubspec.yaml, lib/, assets/  ← this app
+```
 
-If version control is introduced later, replace this section with the real
-rules rather than leaving both.
+- **Remote:** `https://github.com/yousefbzaqout/tazkerah.git`
+- **Branches:** `main` (backend M0 foundation), `mobile` (this work),
+  `cursor/m0-foundation-b1ce` (backend Sanctum/DB/Redis, open as PR #1).
+- Run Flutter commands from `mobile/`, not the repo root. Paths in this file
+  (`lib/`, `test/`, `pubspec.yaml`) are all relative to `mobile/`.
+- Each directory keeps its **own `.gitignore`**; the root holds only repo-wide
+  rules. A root-anchored `/build` or `/vendor` would name the wrong directory.
+- `backend/` is another engineer's work. Do not edit it as a side effect of
+  mobile work — API contract changes are a conversation, not a commit.
 
 ## Commit Messages
-
-These apply the moment this tree is under version control — write them this way
-from the first commit, not retroactively.
 
 - Short, direct summary line (imperative, no trailing period).
 - Blank line, then bullet points of **what changed/added** — clear and direct,
