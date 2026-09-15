@@ -20,6 +20,8 @@ import 'package:tazkerah/features/tickets/presentation/widgets/clock_skew_fallba
 import 'package:tazkerah/features/tickets/presentation/widgets/pass_intercept_banner.dart';
 import 'package:tazkerah/l10n/generated/app_localizations.dart';
 
+import '../support/fake_screen_brightness_controller.dart';
+
 /// A [GatePassRepository] a test can steer.
 class FakeGatePassRepository implements GatePassRepository {
   FakeGatePassRepository({this.pass, this.fetchFailure, this.issueFailure});
@@ -144,6 +146,7 @@ void useTallViewport(WidgetTester tester) {
 (ProviderContainer, FakeGatePassRepository, FakeCaptureDetector) build({
   FakeGatePassRepository? repository,
   AppClock? clock,
+  FakeScreenBrightnessController? brightness,
 }) {
   final repo = repository ?? FakeGatePassRepository();
   final detector = FakeCaptureDetector();
@@ -154,6 +157,9 @@ void useTallViewport(WidgetTester tester) {
       secureStorageProvider.overrideWithValue(InMemorySecureStorage()),
       gatePassRepositoryProvider.overrideWithValue(repo),
       screenCaptureDetectorProvider.overrideWithValue(detector),
+      screenBrightnessControllerProvider.overrideWithValue(
+        brightness ?? FakeScreenBrightnessController(),
+      ),
       if (clock != null) clockProvider.overrideWithValue(clock),
     ],
   );
@@ -508,6 +514,84 @@ void main() {
 
       container.dispose();
       await tester.pump();
+    });
+  });
+
+  group('Screen brightness', () {
+    test('raises the screen once a code is on display', () async {
+      final brightness = FakeScreenBrightnessController();
+      final (container, _, _) = build(brightness: brightness);
+      await settle(container);
+
+      expect(read(container).status, GatePassViewStatus.active);
+      expect(brightness.calls, ['boost']);
+    });
+
+    test('does not raise the screen when the pass cannot be presented', () async {
+      final repo = FakeGatePassRepository(
+        pass: testPass(status: GatePassStatus.consumed),
+      );
+      final brightness = FakeScreenBrightnessController();
+      final (container, _, _) = build(repository: repo, brightness: brightness);
+      await settle(container);
+
+      // Nothing scannable is on screen, so there is nothing to light up.
+      expect(read(container).status, GatePassViewStatus.unavailable);
+      expect(brightness.calls, isEmpty);
+    });
+
+    test('does not raise the screen for an error frame', () async {
+      final repo = FakeGatePassRepository(
+        issueFailure: const NetworkFailure(),
+      );
+      final brightness = FakeScreenBrightnessController();
+      final (container, _, _) = build(repository: repo, brightness: brightness);
+      await settle(container);
+
+      expect(read(container).status, GatePassViewStatus.error);
+      expect(brightness.calls, isEmpty);
+    });
+
+    test('dims again when a capture withholds the code', () async {
+      final brightness = FakeScreenBrightnessController();
+      final (container, _, detector) = build(brightness: brightness);
+      await settle(container);
+      expect(brightness.isBoosted, isTrue);
+
+      detector.fire();
+      await Future<void>.delayed(Duration.zero);
+
+      // Holding the screen bright over a redacted placeholder would also make
+      // a recording still in progress easier to read.
+      expect(read(container).status, GatePassViewStatus.intercepted);
+      expect(brightness.calls, ['boost', 'restore']);
+    });
+
+    test('raises the screen again when a fresh code is revealed', () async {
+      final brightness = FakeScreenBrightnessController();
+      final (container, _, detector) = build(brightness: brightness);
+      await settle(container);
+
+      detector.fire();
+      await Future<void>.delayed(Duration.zero);
+
+      await notifier(container).revealFreshCode();
+
+      expect(read(container).status, GatePassViewStatus.active);
+      expect(brightness.calls, ['boost', 'restore', 'boost']);
+    });
+
+    test('hands the screen back when the pass is disposed', () async {
+      final brightness = FakeScreenBrightnessController();
+      final (container, _, _) = build(brightness: brightness);
+      await settle(container);
+      expect(brightness.isBoosted, isTrue);
+
+      container.dispose();
+
+      // A pass left bright after the user navigated away would drain a battery
+      // they may still need to present a ticket later.
+      expect(brightness.calls.last, 'restore');
     });
   });
 }

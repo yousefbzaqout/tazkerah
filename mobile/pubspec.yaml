@@ -69,6 +69,24 @@ dependencies:
   # be. `TZDateTime` is also the only type zonedSchedule accepts.
   timezone: ^0.10.1
 
+  # Screen capture handling for the gate pass. The two platforms differ in a
+  # way the product response depends on: Android can block a screenshot
+  # outright (FLAG_SECURE), while iOS can only report one *after* it happened.
+  # Hence rotation-and-invalidate rather than prevention — a design relying on
+  # prevention would be honest on one platform and false on the other.
+  #
+  # screen_protector was tried first and does not build on this toolchain: on
+  # AGP 9 it skips `kotlin-android` without adding src/main/kotlin to the
+  # Kotlin source set, so its plugin class is never compiled.
+  no_screenshot: ^2.0.1
+
+  # Raises the screen while a gate pass is shown, so a QR stays readable to a
+  # scanner on a dimmed or auto-brightness handset. Restored on leaving: the
+  # app has no business holding the screen at full brightness once the pass is
+  # off screen, and doing so would drain a battery the holder may still need
+  # to present a ticket later.
+  screen_brightness: ^2.1.11
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

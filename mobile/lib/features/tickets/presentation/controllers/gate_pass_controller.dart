@@ -8,8 +8,11 @@ import '../../../../core/errors/failure.dart';
 import '../../../../core/providers/core_providers.dart';
 import '../../../../core/utils/clock.dart';
 import '../../data/dev_gate_pass_repository.dart';
+import '../../data/platform_screen_brightness_controller.dart';
+import '../../data/platform_screen_capture_detector.dart';
 import '../../domain/gate_pass_repository.dart';
 import '../../domain/gate_pass_state.dart';
+import '../../domain/screen_brightness_controller.dart';
 import '../../domain/screen_capture_detector.dart';
 
 /// Drives the gate pass: fetch it, rotate its code, and withhold the payload
@@ -44,6 +47,7 @@ class GatePassController extends Notifier<GatePassViewState> {
     // providers from a life-cycle callback, and by disposal time the container
     // may already be tearing down the very provider we would ask for.
     final detector = ref.read(screenCaptureDetectorProvider);
+    final brightness = ref.read(screenBrightnessControllerProvider);
 
     ref.onDispose(() {
       _disposed = true;
@@ -52,6 +56,9 @@ class GatePassController extends Notifier<GatePassViewState> {
       // Stop watching when the pass leaves the screen, so the detector is not
       // running for the life of the app.
       detector.stop();
+      // Hand the screen back. Holding full brightness after the pass is gone
+      // would drain a battery the holder may still need this evening.
+      brightness.restore();
     });
     Future.microtask(load);
     return const GatePassViewState();
@@ -97,6 +104,14 @@ class GatePassController extends Notifier<GatePassViewState> {
 
       await _rotate(token);
       if (_isStale(token)) return;
+
+      // Only once a code is actually on screen. Boosting on open would raise
+      // the screen for an error frame or the clock-drift fallback, neither of
+      // which a scanner reads.
+      if (state.status == GatePassViewStatus.active) {
+        await ref.read(screenBrightnessControllerProvider).boost();
+        if (_isStale(token)) return;
+      }
 
       _startTicker();
       await _watchForCaptures();
@@ -256,6 +271,11 @@ class GatePassController extends Notifier<GatePassViewState> {
     );
     _ticker?.cancel();
 
+    // No QR left to read, so the screen goes back to normal. Holding it bright
+    // over a redacted placeholder would also make a recording still in
+    // progress easier to read.
+    unawaited(ref.read(screenBrightnessControllerProvider).restore());
+
     // Reported so the issuer invalidates the captured code. Failures are
     // logged rather than surfaced — the user has already been told the code
     // was withheld, and a second error would not change what they do next.
@@ -278,7 +298,13 @@ class GatePassController extends Notifier<GatePassViewState> {
 
     await _rotate(token);
     if (_isStale(token)) return;
-    if (state.status == GatePassViewStatus.active) _startTicker();
+    if (state.status == GatePassViewStatus.active) {
+      // A code is back on screen, so the screen goes bright again — it was
+      // dimmed when the capture withheld the previous one.
+      await ref.read(screenBrightnessControllerProvider).boost();
+      if (_isStale(token)) return;
+      _startTicker();
+    }
   }
 
   void _startTicker() {
@@ -332,11 +358,32 @@ final gatePassRepositoryProvider = Provider<GatePassRepository>((ref) {
 
 /// Binds the capture detector.
 ///
-/// Inert until the platform implementation lands. Overridden in tests to reach
-/// the intercepted frame without taking a real screenshot.
+/// Overridden in tests to reach the intercepted frame without taking a real
+/// screenshot — the platform implementation needs a method channel that
+/// `flutter_test` does not provide, so the [NoopScreenCaptureDetector] stands
+/// in wherever there is no platform to talk to.
 final screenCaptureDetectorProvider = Provider<ScreenCaptureDetector>((ref) {
-  return const NoopScreenCaptureDetector();
+  if (!supportsScreenCaptureDetection) {
+    return const NoopScreenCaptureDetector();
+  }
+
+  final detector = PlatformScreenCaptureDetector();
+  ref.onDispose(detector.dispose);
+  return detector;
 });
+
+/// Binds the brightness controller.
+///
+/// Overridden in tests, where there is no platform channel and brightness has
+/// no observable state to assert on.
+final screenBrightnessControllerProvider = Provider<ScreenBrightnessController>(
+  (ref) {
+    if (!supportsScreenBrightnessControl) {
+      return const NoopScreenBrightnessController();
+    }
+    return PlatformScreenBrightnessController();
+  },
+);
 
 /// Auto-disposed so the rotation timer and the capture subscription stop when
 /// the pass leaves the screen. A gate pass left rotating in the background
