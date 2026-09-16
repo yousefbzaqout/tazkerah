@@ -1,4 +1,4 @@
-name: F-001 RLS Isolation
+name: F-001 RLS Isolation (R4)
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [development, main]
 
 jobs:
-  tenant-rls:
+  tenant-rls-r4:
     runs-on: ubuntu-latest
     services:
       pgsql:
@@ -33,11 +33,15 @@ jobs:
           php-version: '8.4'
           extensions: pdo_pgsql, pgsql
           coverage: none
+          tools: pint
 
       - name: Install Composer dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Run F-001 RLS suite
+      - name: Pint (F-001 RLS surface)
+        run: ./vendor/bin/pint --test app/Support/TenantContext.php app/Models/Concerns app/Models/Event.php app/Models/Sector.php app/Models/Seat.php app/Models/Ticket.php app/Models/ScanLog.php app/Models/EventPolicyChunk.php database/migrations/2026_09_10_000001_create_tazkerah_tenant_schema.php tests/Feature/TenantRlsIsolationTest.php tests/Feature/TenantRlsAdversarialTest.php tests/Concerns/InteractsWithTenantRls.php
+
+      - name: Run F-001 + R4 adversarial RLS suite
         env:
           APP_ENV: testing
           APP_KEY: base64:2fl+KtvkdphvQyVfipTVTxZsaOaqE/NkzN1hZU0VZK0=
@@ -47,4 +51,9 @@ jobs:
           DB_DATABASE: testing
           DB_USERNAME: sail
           DB_PASSWORD: password
-        run: ./vendor/bin/phpunit --filter TenantRlsIsolationTest
+        run: |
+          set -euo pipefail
+          OUTPUT=$(./vendor/bin/phpunit --filter 'TenantRls(Isolation|Adversarial)Test' --testdox 2>&1)
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -qi 'skipped' && { echo 'R4 FAIL: unexpected skipped tests'; exit 1; } || true
+          echo "$OUTPUT" | grep -Eq 'OK|Tests: [1-9]' || { echo 'R4 FAIL: suite did not report OK'; exit 1; }

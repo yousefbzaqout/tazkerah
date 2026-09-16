@@ -156,6 +156,14 @@ return new class extends Migration
         DB::statement('GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO tazkerah_app');
         DB::statement('GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO tazkerah_app');
         DB::statement('ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO tazkerah_app');
+        // Allow login roles (e.g. sail) to SET ROLE tazkerah_app for FORCE RLS (R4 / ADR-002).
+        DB::statement('DO $$ BEGIN
+            BEGIN
+                EXECUTE format(\'GRANT tazkerah_app TO %I\', CURRENT_USER);
+            EXCEPTION WHEN OTHERS THEN
+                NULL; -- role membership may already exist or be disallowed in some environments
+            END;
+        END $$');
     }
 
     public function down(): void

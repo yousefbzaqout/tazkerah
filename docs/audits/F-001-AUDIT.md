@@ -20,12 +20,13 @@
 
 ## Focus Areas
 * **Security Areas**: FORCE RLS on tenant tables; app must not connect as a superuser / RLS-bypass role in production; tests use `tazkerah_app`.
-* **Data Areas**: `tenants`, `events`, `sectors`, `seats`, `tickets` (default `SOLD`), `scan_logs`, `event_policy_chunks`; `users.tenant_id`.
+* **Data Areas**: FORCE RLS on `events`, `sectors`, `seats`, `tickets` (default `SOLD`), `scan_logs`, `event_policy_chunks` (Architecture §5 DDL). `tenants` catalog + nullable `users.tenant_id` are schema columns without RLS policies (by SoT — not AC-016 surfaces).
 * **Failure Modes**: Missing tenant GUC → empty set; cross-tenant write → 0 rows or `WITH CHECK` rejection.
 * **Edge Cases**: Cross-tenant INSERT/UPDATE/DELETE; Eloquent scope when context empty.
 
 ## Expected Evidence
-* `./vendor/bin/phpunit --filter TenantRlsIsolationTest` exit 0 (PostgreSQL / pgvector).
+* `./vendor/bin/phpunit --filter TenantRls` exit 0 (Isolation + Adversarial; PostgreSQL / pgvector).
 * `./vendor/bin/pint` clean on touched PHP.
-* CI workflow `.github/workflows/php-f001-rls.yml` green on PR.
-* Migration enables FORCE RLS + policies; `down()` drops policies/role safely.
+* CI workflow `.github/workflows/php-f001-rls.yml` green on PR (Pint + fail-on-skip).
+* Migration enables FORCE RLS + policies; `down()` drops policies/role safely; `GRANT tazkerah_app TO` login where allowed.
+* R4 package: `docs/audits/F-001-R4-ASSURANCE.md` (Automated Verification + Deep Adversarial + independent review disposition).

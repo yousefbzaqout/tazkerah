@@ -1,13 +1,14 @@
-# Audit Result: F-001
+# Audit Result: F-001 (Re-audit)
 
 **Task ID:** `F-001`  
 **Task title (SoT `docs/07-TASKS.md`):** Multi-Tenant Schema & PostgreSQL Row-Level Security Kernel  
 **Auditor role:** Task Audit Agent (read-only; no implementation changes)  
-**Audit date:** 2026-09-16  
-**Branch / commit audited:** `origin/feature/F-001-tenant-rls` @ `5ec6353`  
-**Brief consulted:** `docs/audits/F-001-AUDIT.md`  
+**Re-audit date:** 2026-09-16  
+**Prior verdict:** `TASK_BLOCKED` @ `5ec6353` ([historical section retained below notes])  
+**Branch / commit audited:** `origin/feature/F-001-tenant-rls` @ `5d4cabe`  
+**Brief consulted:** `docs/audits/F-001-AUDIT.md` (rewritten — aligned)  
 **Requirements:** `FR-016` · `AC-016-01` · `AC-016-02`  
-**Architecture / ADR:** `docs/05-ARCHITECTURE.md` §5–6 · `docs/decisions/ADR-002-Tenant-Isolation.md`  
+**Architecture / ADR:** `docs/05-ARCHITECTURE.md` §5–6 · `ADR-002`  
 **Traceability risk (FR-016):** R4  
 
 ---
@@ -17,237 +18,147 @@
 | Dimension | Classification |
 | --- | --- |
 | Deliverable (migrations + RLS kernel) | **PASS** |
-| `AC-016-01` | **PASS** (local PHPUnit evidence) |
-| `AC-016-02` | **PARTIAL** (view covered; manipulate incomplete) |
-| FR-016 full narrative (Global Scopes + audit exception) | **PARTIAL** / **MISSING** pieces |
-| ADR-002 RLS + session GUC | **PASS** (kernel); request middleware **MISSING** (owned by `F-004`) |
-| Architecture §5 schema alignment | **PASS** (incl. ticket default `SOLD`) |
-| Security / authorization (DB-level) | **PASS** with residual ops risk |
-| CI evidence | **UNVERIFIED** / **MISSING** |
-| Audit brief `F-001-AUDIT.md` | **CONTRADICTED** (stale wrong task identity) |
-| Out-of-scope changes on branch | **PASS** (mostly in-scope; minor compose NFR bleed) |
+| `AC-016-01` | **PASS** |
+| `AC-016-02` | **PASS** |
+| FR-016 (RLS + Global Scopes + fail-closed SoT) | **PASS** |
+| ADR-002 RLS + session GUC kernel | **PASS** |
+| ADR-002 HTTP middleware | **UNREQUESTED** (owned by `F-004`; documented) |
+| Architecture §5 schema | **PASS** |
+| Security / authorization (DB-level) | **PASS** |
+| CI evidence | **PASS** (GitHub Actions run **success**) |
+| Audit brief `F-001-AUDIT.md` | **PASS** |
+| Migration `down()` hygiene | **PASS** |
+| Out-of-scope creep | **PASS** |
 
 ### Final verdict
 
-# **TASK_BLOCKED**
+# **TASK_VERIFIED**
 
-Core RLS schema work is largely correct and `AC-016-01` is evidenced, but the task cannot be closed as verified while (1) `AC-016-02` manipulate coverage is incomplete for seats/scan_logs, (2) FR-016 Global Scope / audit-exception behaviors are absent, (3) no CI pipeline evidence exists, and (4) the stored audit brief contradicts the real task.
+Prior blocking findings from the first audit are closed on `5d4cabe`. Residual note: production must not run the app as a PostgreSQL superuser (ops / `F-004` wiring); this does not reopen F-001 ACs.
+
+**Risk:** **R4** (inherent FR-016 multi-tenant isolation risk class — mitigated by FORCE RLS + scopes + tests/CI; not a task failure).
 
 ---
 
-## Scope of inspection
+## Evidence
 
-| Artifact | Inspected |
+### Local (auditor re-run)
+
+```text
+./vendor/bin/phpunit --filter TenantRlsIsolationTest
+result: passed · tests=2 · assertions=18 · duration_ms≈2266
+
+./vendor/bin/pint --test (BelongsToTenant / Event / TenantRlsIsolationTest)
+result: passed
+```
+
+### CI
+
+```text
+gh run: "fix(F-001): close RLS audit gaps…" · workflow "F-001 RLS Isolation"
+status: completed / success · run id 35098860200 · ~39s · 2026-09-16T12:57:14Z
+branch: feature/F-001-tenant-rls
+```
+
+### Code / docs inspected
+
+| Artifact | Status |
 | --- | --- |
-| `docs/07-TASKS.md` `F-001` | Yes |
-| `docs/audits/F-001-AUDIT.md` | Yes |
-| `docs/02-REQUIREMENTS.md` FR-016 | Yes |
-| `docs/05-ARCHITECTURE.md` §5 DDL / RLS | Yes |
-| ADR-002 | Yes |
-| Migration `2026_09_10_000001_create_tazkerah_tenant_schema.php` | Yes (`5ec6353`) |
-| Models `Tenant`…`Ticket`, `User.tenant_id` | Yes |
-| `App\Support\TenantContext` | Yes |
-| `tests/Feature/TenantRlsIsolationTest.php` + trait | Yes |
-| `compose.yaml` pgsql / `phpunit.xml` / `config/database.php` | Yes |
-| Routes / HTTP auth middleware | N/A for F-001 deliverable; confirmed **not** in commit |
-| `.github/workflows` CI | **Absent** |
-| Local re-run PHPUnit | Yes — `passed` 2 tests / 10 assertions (2026-09-16) |
+| Migration FORCE RLS + policies; ticket default `SOLD` | Present |
+| `down()` drops policies, disables RLS, drops `tazkerah_app` | Present |
+| `BelongsToTenant` on Event, Sector, Seat, Ticket, ScanLog, EventPolicyChunk | Present |
+| Tests: empty context; view; UPDATE events/seats/scan_logs; DELETE seats/scan_logs; INSERT WITH CHECK | Present |
+| FR-016 exception = fail-closed; F-004 owns GUC middleware | Present in `02-REQUIREMENTS.md` |
+| `F-001-AUDIT.md` identity matches `07-TASKS` | Present |
+| `.github/workflows/php-f001-rls.yml` | Present + green |
 
 ---
 
 ## Verification matrix
 
-| Check | Result | Notes |
-| ---: | --- | --- |
-| 1. Requirement coverage (FR-016) | **PARTIAL** | RLS present; Eloquent Global Scopes absent; exception/audit logging absent |
-| 2. `AC-016-01` | **PASS** | Empty GUC → 0 rows for events/seats/scan_logs under `tazkerah_app` |
-| 2b. `AC-016-02` | **PARTIAL** | Cross-tenant **view** blocked for events/seats/scan_logs; **update** asserted only for events |
-| 3. Architecture compliance | **PASS** | Tables, `is_locked`, ticket default `SOLD`, ENABLE+FORCE RLS, policies match §5 |
-| 4. ADR-002 compliance | **PARTIAL** | RLS + `app.current_tenant_id` GUC OK; per-request middleware deferred to `F-004` |
-| 5. Security | **PASS*** | FORCE RLS + non-superuser role in tests; *prod role binding **UNVERIFIED** |
-| 6. Authorization | **PASS** (DB) | Isolation via policy `USING`/`WITH CHECK`; no app auth in F-001 |
-| 7. Data integrity | **PASS** | FKs/indexes present; ticket status SoT `SOLD` |
-| 8. API behavior | **N/A** / **UNREQUESTED** | No API in F-001 |
-| 9. Error handling | **PARTIAL** | Fail-closed empty set; no security exception / audit log per FR-016 exception text |
-| 10. Edge cases | **MISSING** / **UNVERIFIED** | No tests for cross-tenant INSERT, DELETE, invalid GUC UUID |
-| 11. Failure handling | **PARTIAL** | Migration refuses non-pgsql; no documented rollback of role/grants in `down()` |
-| 12. Test quality | **PARTIAL** | Good structure; incomplete manipulate + no negative INSERT/DELETE |
-| 13. Unexpected behavior | **PASS** | No silent Octane/PassKit; ticket `ISSUED` not present |
-| 14. Out-of-scope changes | **PASS** / minor **UNREQUESTED** | `max_connections=100` in compose is NFR-005/`F-002`-adjacent |
+| Check | Result |
+| ---: | --- |
+| 1. Requirement coverage (FR-016) | **PASS** |
+| 2. `AC-016-01` | **PASS** |
+| 2b. `AC-016-02` | **PASS** |
+| 3. Architecture compliance | **PASS** |
+| 4. ADR-002 compliance (kernel) | **PASS**; middleware **UNREQUESTED** → F-004 |
+| 5. Security | **PASS** (FORCE RLS + `tazkerah_app` in tests/CI) |
+| 6. Authorization | **PASS** (DB policies + Eloquent scope) |
+| 7. Data integrity | **PASS** |
+| 8. API behavior | **N/A** / **UNREQUESTED** |
+| 9. Error handling (fail-closed) | **PASS** (aligned SoT) |
+| 10. Edge cases (INSERT/UPDATE/DELETE) | **PASS** |
+| 11. Failure handling (`down()`) | **PASS** |
+| 12. Test quality | **PASS** |
+| 13. Unexpected behavior | **PASS** |
+| 14. Out-of-scope changes | **PASS** |
 
 ---
 
-## Findings
+## Findings (re-audit)
 
-### F-001-R-01 — Stale / wrong audit brief
+### F-001-RA-01 — Prior blockers closed
 
 | Field | Value |
 | --- | --- |
-| **Finding ID** | F-001-R-01 |
+| **Finding ID** | F-001-RA-01 |
 | **Task ID** | F-001 |
-| **Requirement / AC** | Process / audit SoT |
-| **Classification** | **CONTRADICTED** |
-| **Evidence** | `docs/audits/F-001-AUDIT.md` titles task as “Testing & Static Analysis Harness”, maps `REQ-SEC-01` / phpstan — not FR-016 / RLS |
-| **Impact** | Auditors/agents following the brief will verify the wrong deliverable |
-| **Severity** | High |
-| **Recommended remediation** | Rewrite `F-001-AUDIT.md` to match `07-TASKS` F-001 (FR-016, AC-016-01/02, ADR-002, Architecture §5) |
+| **Requirement / AC** | AC-016-02, FR-016, CI, audit brief |
+| **Classification** | **PASS** |
+| **Evidence** | `5d4cabe` expands manipulate tests; Global Scope trait; FR-016 fail-closed wording; CI success; rewritten `F-001-AUDIT.md` |
+| **Impact** | Clears TASK_BLOCKED conditions from first audit |
+| **Severity** | Info |
+| **Recommended remediation** | None |
 
 ---
 
-### F-001-R-02 — `AC-016-02` manipulate coverage incomplete
+### F-001-RA-02 — HTTP tenant GUC middleware deferred (accepted)
 
 | Field | Value |
 | --- | --- |
-| **Finding ID** | F-001-R-02 |
+| **Finding ID** | F-001-RA-02 |
+| **Task ID** | F-001 |
+| **Requirement / AC** | ADR-002 mitigation / `F-004` |
+| **Classification** | **UNREQUESTED** |
+| **Evidence** | FR-016 + `F-001-AUDIT.md` explicitly assign per-request `SET LOCAL` to `F-004`; commit has no Sanctum middleware |
+| **Impact** | Correct task boundary; production still needs F-004 + non-bypass DB role before live multi-tenant API |
+| **Severity** | Low (sequencing) |
+| **Recommended remediation** | Implement `F-004` next; bind app DB role to `tazkerah_app` (or equivalent) |
+
+---
+
+### F-001-RA-03 — Optional residual: events DELETE not separately asserted
+
+| Field | Value |
+| --- | --- |
+| **Finding ID** | F-001-RA-03 |
 | **Task ID** | F-001 |
 | **Requirement / AC** | AC-016-02 |
-| **Classification** | **PARTIAL** |
-| **Evidence** | `TenantRlsIsolationTest::test_ac_016_02_*` asserts view isolation for events/seats/scan_logs and **only** `events` UPDATE → 0 rows. No UPDATE/DELETE assertions on `seats` or `scan_logs` |
-| **Impact** | AC text requires cannot **manipulate** seats/scan_logs; residual unverified write paths |
-| **Severity** | Medium |
-| **Recommended remediation** | Add tests: cross-tenant UPDATE/DELETE on `seats` and `scan_logs` return 0; optional INSERT WITH CHECK rejection |
-
----
-
-### F-001-R-03 — FR-016 Eloquent Global Scopes not implemented
-
-| Field | Value |
-| --- | --- |
-| **Finding ID** | F-001-R-03 |
-| **Task ID** | F-001 |
-| **Requirement / AC** | FR-016 (“Global Scopes and PostgreSQL RLS”) |
-| **Classification** | **MISSING** |
-| **Evidence** | No `GlobalScope` / BelongsToTenant trait under `app/`; models are plain Eloquent |
-| **Impact** | App-layer defense-in-depth missing; DB RLS still primary (ADR-002). Divergence from FR wording |
-| **Severity** | Medium |
-| **Recommended remediation** | Either add tenant Global Scopes as part of F-001/F-004 follow-up **or** amend FR-016 wording to “RLS primary; optional Global Scopes” via explicit doc decision |
-
----
-
-### F-001-R-04 — FR-016 exception path (security exception + audit log) absent
-
-| Field | Value |
-| --- | --- |
-| **Finding ID** | F-001-R-04 |
-| **Task ID** | F-001 |
-| **Requirement / AC** | FR-016 Exceptions / Failure Behavior |
-| **Classification** | **MISSING** |
-| **Evidence** | Cross-tenant access yields empty result / 0 updates; no thrown domain security exception; no audit violation log sink |
-| **Impact** | Fail-closed RLS satisfies AC empty-set language but not FR exception narrative |
-| **Severity** | Low–Medium (AC-focused task may accept fail-closed; FR still incomplete) |
-| **Recommended remediation** | Product decision: (a) document fail-closed empty as SoT exception behavior, or (b) add audit + explicit exception layer in a follow-up task |
-
----
-
-### F-001-R-05 — ADR-002 request middleware not in F-001
-
-| Field | Value |
-| --- | --- |
-| **Finding ID** | F-001-R-05 |
-| **Task ID** | F-001 |
-| **Requirement / AC** | ADR-002 mitigation; related `F-004` |
-| **Classification** | **MISSING** for F-001 / **UNREQUESTED** if owned by F-004 |
-| **Evidence** | `TenantContext` helper exists; commit does **not** register HTTP middleware (working tree may have uncommitted `SetTenantContext` — **not** in `5ec6353`) |
-| **Impact** | Without `F-004`, app connections as table owner/superuser can bypass FORCE RLS |
-| **Severity** | Medium (expected sequencing); High if production ships F-001 alone with superuser DB user |
-| **Recommended remediation** | Gate production deploy on `F-004` + non-bypass DB role; keep F-001 as schema kernel only |
-
----
-
-### F-001-R-06 — Production DB role / CI evidence unverified
-
-| Field | Value |
-| --- | --- |
-| **Finding ID** | F-001-R-06 |
-| **Task ID** | F-001 |
-| **Requirement / AC** | Verification Method; Security |
-| **Classification** | **UNVERIFIED** / **MISSING** |
-| **Evidence** | No `.github/workflows` in repo; phpstan not installed; local PHPUnit PASS only. Migration creates `tazkerah_app` but app `.env` / runtime role binding not in F-001 commit |
-| **Impact** | Cannot claim continuous verification; RLS may be bypassed if app uses superuser |
-| **Severity** | High (ops), Medium (task close) |
-| **Recommended remediation** | Add CI job: Postgres pgvector service + `phpunit --filter TenantRlsIsolationTest`; document app connects as `tazkerah_app` (or SET ROLE) |
-
----
-
-### F-001-R-07 — Migration `down()` incomplete for roles/policies/extensions
-
-| Field | Value |
-| --- | --- |
-| **Finding ID** | F-001-R-07 |
-| **Task ID** | F-001 |
-| **Requirement / AC** | Failure / rollback hygiene |
-| **Classification** | **PARTIAL** |
-| **Evidence** | `down()` drops tables/`users.tenant_id` but does not DROP POLICY/ROLE `tazkerah_app` / extensions |
-| **Impact** | Dirty rollback in shared DBs; low runtime risk |
-| **Severity** | Low |
-| **Recommended remediation** | Extend `down()` to drop policies/role grants (and optionally extensions) safely |
-
----
-
-### F-001-R-08 — Positive controls confirmed (non-blocking)
-
-| Field | Value |
-| --- | --- |
-| **Finding ID** | F-001-R-08 |
-| **Task ID** | F-001 |
-| **Requirement / AC** | AC-016-01; Architecture §5; ADR-002 |
-| **Classification** | **PASS** |
-| **Evidence** | ENABLE+FORCE RLS on tenant tables; policies on `tenant_id = current_setting('app.current_tenant_id')`; ticket default `SOLD`; `sectors.is_locked`; local test `passed` 2/2 |
-| **Impact** | Kernel deliverable met for empty-context fail-closed and cross-tenant read isolation |
+| **Classification** | **PASS** (with note) |
+| **Evidence** | Events cross-tenant UPDATE = 0 and INSERT WITH CHECK covered; seats/scan_logs DELETE covered. Events DELETE not a dedicated assert |
+| **Impact** | Negligible — same RLS `USING` clause governs DELETE on events |
 | **Severity** | Info |
-| **Recommended remediation** | None for these items |
+| **Recommended remediation** | Optional one-liner DELETE assert on `events` in a future cleanup; not required to reopen task |
 
 ---
 
-## Local verification evidence (auditor re-run)
+## Mapping: first-audit findings → status
 
-```text
-Command: DB_HOST=127.0.0.1 DB_DATABASE=testing ... ./vendor/bin/phpunit --filter TenantRlsIsolationTest
-Result: passed · tests=2 · assertions=10 · duration_ms≈2948
-Branch: feature/F-001-tenant-rls (aligned with origin @ 5ec6353)
-```
-
-**CI:** no workflow files found → classification **UNVERIFIED**.
-
----
-
-## Out-of-scope / unexpected
-
-| Item | Classification |
+| Prior ID | Status after `5d4cabe` |
 | --- | --- |
-| HTTP auth / Sanctum / routes in `5ec6353` | Not present — **PASS** (correct for F-001) |
-| Ticket default `SOLD` (not `ISSUED`) | **PASS** (SoT) |
-| `compose.yaml` `max_connections=100` | Mild **UNREQUESTED** vs pure F-001; aligns Architecture Phase-1 |
-| pgvector + `event_policy_chunks` | In Architecture §5 — **PASS** as schema SoT, even if RAG is Phase-2 |
-
----
-
-## Recommended close criteria (to reach TASK_VERIFIED)
-
-1. Fix / replace `docs/audits/F-001-AUDIT.md` identity.  
-2. Extend tests for AC-016-02 manipulate on `seats` + `scan_logs` (and ideally INSERT/DELETE).  
-3. Decide FR-016 Global Scopes + audit-exception SoT (implement or amend docs).  
-4. Add CI Postgres + PHPUnit evidence for `TenantRlsIsolationTest`.  
-5. Document that runtime tenant GUC middleware is **`F-004`** and require non-superuser DB role before production.
+| F-001-R-01 stale audit brief | **Closed** — brief rewritten |
+| F-001-R-02 AC-016-02 manipulate incomplete | **Closed** — seats/scan_logs UPDATE/DELETE + INSERT |
+| F-001-R-03 Global Scopes missing | **Closed** — `BelongsToTenant` |
+| F-001-R-04 exception/audit narrative | **Closed** — FR-016 fail-closed SoT |
+| F-001-R-05 middleware missing | **Accepted deferred** → F-004 |
+| F-001-R-06 CI unverified | **Closed** — workflow + green run |
+| F-001-R-07 migration `down()` | **Closed** — policies/role cleanup |
 
 ---
 
 ## Final verdict
 
-**TASK_BLOCKED**
+**TASK_VERIFIED**
 
-Risk label for FR-016 / this foundation slice remains **R4** until residual AC/ops gaps above are closed.
-
----
-
-## Remediation closed (2026-09-16)
-
-Implemented on `feature/F-001-tenant-rls` after TASK_BLOCKED:
-
-- Expanded AC-016-02 manipulate tests (seats/scan_logs UPDATE/DELETE + INSERT WITH CHECK)
-- Added Eloquent `BelongsToTenant` Global Scope
-- Rewrote `F-001-AUDIT.md`; FR-016 exception = fail-closed; middleware = F-004
-- Hardened migration `down()` (policies + role)
-- Added `.github/workflows/php-f001-rls.yml`
-
-**Re-audit expected:** TASK_VERIFIED (pending auditor confirmation).
+Ready to merge `feature/F-001-tenant-rls` → `development` subject to team PR process. Next backend task per `AGENTS.md`: **`F-004`** (or `F-002` if infra hardening is sequenced next — note `F-004` depends on `F-001`).
