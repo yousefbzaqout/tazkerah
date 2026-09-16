@@ -1,11 +1,11 @@
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.5
+            context: './vendor/laravel/sail/runtimes/8.5'
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: sail-8.5/app
+        image: 'sail-8.5/app'
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -25,7 +25,10 @@ services:
             - pgsql
             - redis
     pgsql:
-        image: 'postgres:18-alpine'
+        # pgvector extension required for event_policy_chunks (Architecture §5)
+        # Phase-1: Laravel connects directly to PostgreSQL (no PgBouncer).
+        # Dev/staging profile: max_connections=100
+        image: 'pgvector/pgvector:pg18'
         ports:
             - '${FORWARD_DB_PORT:-5432}:5432'
         environment:
@@ -33,6 +36,10 @@ services:
             POSTGRES_DB: '${DB_DATABASE}'
             POSTGRES_USER: '${DB_USERNAME}'
             POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+        command:
+            - postgres
+            - '-c'
+            - max_connections=100
         volumes:
             - 'sail-pgsql:/var/lib/postgresql'
             - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
