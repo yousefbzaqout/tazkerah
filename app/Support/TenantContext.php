@@ -9,29 +9,46 @@ final class TenantContext
 {
     public const GUC = 'app.current_tenant_id';
 
-    public static function set(?string $tenantId): void
+    /**
+     * @param  bool  $local  true = SET LOCAL (requires open transaction); false = session GUC (PHP-FPM request + finally clear)
+     */
+    public static function set(?string $tenantId, bool $local = true): void
     {
         if ($tenantId === null || $tenantId === '') {
-            self::clear();
+            self::clear($local);
 
             return;
         }
 
-        // SET LOCAL equivalent via set_config(..., is_local = true) on the direct PostgreSQL session.
-        DB::select('select set_config(?, ?, true) as v', [self::GUC, $tenantId]);
+        // SET LOCAL when $local=true (requires open transaction); session GUC otherwise.
+        DB::select(
+            'select set_config(?, ?, '.($local ? 'true' : 'false').') as v',
+            [self::GUC, $tenantId]
+        );
     }
 
-    public static function clear(): void
+    public static function clear(bool $local = true): void
     {
-        DB::select('select set_config(?, ?, true) as v', [self::GUC, '']);
+        try {
+            DB::select(
+                'select set_config(?, ?, '.($local ? 'true' : 'false').') as v',
+                [self::GUC, '']
+            );
+        } catch (\Throwable) {
+            // Avoid masking the original request exception when the connection is already aborted.
+        }
     }
 
     public static function current(): ?string
     {
-        $value = DB::selectOne(
-            "select nullif(current_setting(?, true), '') as tenant_id",
-            [self::GUC]
-        );
+        try {
+            $value = DB::selectOne(
+                "select nullif(current_setting(?, true), '') as tenant_id",
+                [self::GUC]
+            );
+        } catch (\Throwable) {
+            return null;
+        }
 
         return $value?->tenant_id ?: null;
     }
@@ -52,6 +69,10 @@ final class TenantContext
             return;
         }
 
-        DB::statement('RESET ROLE');
+        try {
+            DB::statement('RESET ROLE');
+        } catch (\Throwable) {
+            //
+        }
     }
 }
