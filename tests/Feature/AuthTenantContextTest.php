@@ -136,6 +136,63 @@ class AuthTenantContextTest extends TestCase
         $after->assertUnauthorized();
     }
 
+    public function test_attendee_cannot_login_via_organizer_web_client(): void
+    {
+        User::factory()->create([
+            'email' => 'attendee@example.com',
+            'roles' => ['attendee'],
+        ]);
+        app(LoginOtpVerifier::class)->store('attendee@example.com', '482910');
+
+        $response = $this->postJson('/api/v1/auth/login', [
+            'identifier' => 'attendee@example.com',
+            'otp' => '482910',
+            'client' => 'organizer_web',
+        ]);
+
+        $response->assertForbidden();
+        $response->assertJsonPath('status', 403);
+        $response->assertJsonPath('type', 'https://tazkerah.com/errors/client-forbidden');
+    }
+
+    public function test_attendee_can_login_via_next_web_client(): void
+    {
+        User::factory()->create([
+            'email' => 'attendee@example.com',
+            'roles' => ['attendee'],
+        ]);
+        app(LoginOtpVerifier::class)->store('attendee@example.com', '482910');
+
+        $response = $this->postJson('/api/v1/auth/login', [
+            'identifier' => 'attendee@example.com',
+            'otp' => '482910',
+            'client' => 'next_web',
+        ]);
+
+        $response->assertOk();
+        $response->assertJsonPath('user.roles', ['attendee']);
+    }
+
+    public function test_organizer_can_login_via_organizer_web_client(): void
+    {
+        $tenantId = $this->insertTenant('Org Tenant');
+        User::factory()->create([
+            'email' => 'org@example.com',
+            'tenant_id' => $tenantId,
+            'roles' => ['organizer'],
+        ]);
+        app(LoginOtpVerifier::class)->store('org@example.com', '482910');
+
+        $response = $this->postJson('/api/v1/auth/login', [
+            'identifier' => 'org@example.com',
+            'otp' => '482910',
+            'client' => 'organizer_web',
+        ]);
+
+        $response->assertOk();
+        $response->assertJsonPath('user.roles', ['organizer']);
+    }
+
     public function test_invalid_otp_returns_401(): void
     {
         User::factory()->create(['email' => 'sami@example.com']);

@@ -40,8 +40,19 @@ final class AuthController
             ], 401);
         }
 
-        $roles = AuthClientRoles::rolesForClient($client);
-        $abilities = array_map(static fn (string $role) => 'role:'.$role, $roles);
+        $requested = AuthClientRoles::rolesForClient($client);
+        $granted = array_values(array_intersect($requested, (array) $user->roles));
+
+        if ($granted === []) {
+            return response()->json([
+                'type' => 'https://tazkerah.com/errors/client-forbidden',
+                'title' => 'Forbidden',
+                'status' => 403,
+                'detail' => 'This client is not authorized for this principal.',
+            ], 403);
+        }
+
+        $abilities = array_map(static fn (string $role) => 'role:'.$role, $granted);
 
         if (! empty($user->tenant_id)) {
             $abilities[] = 'tenant:'.(string) $user->tenant_id;
@@ -57,9 +68,9 @@ final class AuthController
             'user' => [
                 'id' => (string) $user->id,
                 'display_name' => $user->name,
-                'roles' => $roles,
+                'roles' => $granted,
             ],
-            'tenants' => $this->tenantSummaries($user, $roles),
+            'tenants' => $this->tenantSummaries($user, $granted),
         ]);
     }
 

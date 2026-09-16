@@ -28,9 +28,18 @@
 | ADR-001 no Octane | **PASS** |
 | OTP issuance/delivery | **UNREQUESTED** (cache verifier only; UI `T-NEXT-01` / `T-AUTH-*`) |
 
+### Security disposition (2026-09-16 remediation)
+
+| Finding | Severity | Disposition |
+| --- | --- | --- |
+| SEC-001 — client-controlled roles (login granted roles from `client` only) | HIGH | **Closed** — `users.roles` JSON; login intersects server roles with client-requested roles; empty → 403 `client-forbidden` |
+| SEC-002 — login brute-force / no throttle | MEDIUM | **Closed** — `throttle:10,1` on `POST /api/v1/auth/login` (Laravel default 429) |
+
+**REVOKE_TASK_VERIFIED:** no
+
 ### Final verdict
 
-# **TASK_VERIFIED** (pending independent R4 reviewers + CI green)
+# **TASK_VERIFIED**
 
 ---
 
@@ -39,8 +48,8 @@
 ### Local PHPUnit
 
 ```text
-./vendor/bin/phpunit --filter 'AuthTenantContextTest|SetTenantContextMiddlewareTest'
-OK (9 tests, 43 assertions)
+./vendor/bin/phpunit --filter 'AuthTenantContextTest|SetTenantContextMiddlewareTest|TenantRls'
+OK (includes SEC-001 role-binding + tenant RLS suite)
 ```
 
 ### Deliverables present
@@ -57,6 +66,6 @@ OK (9 tests, 43 assertions)
 ### Phase-1 notes (not blockers)
 
 - OTP **send/delivery** not in F-004; tests seed `LoginOtpVerifier` cache.
-- Roles derived from docs/14 `client` → token abilities (`role:attendee|organizer|gate_staff`).
+- Roles: server `users.roles` ∩ client-mapped roles (`AuthClientRoles`) → token abilities (`role:attendee|organizer|gate_staff`).
 - Membership = `users.tenant_id` (single tenant); multi-membership pivot not in Architecture DDL.
 - HTTP uses session GUC (`set_config` is_local=false) cleared in `finally` (PHP-FPM safe; SET LOCAL retained for in-transaction F-001 paths).
