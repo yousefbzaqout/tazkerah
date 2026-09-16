@@ -39,9 +39,9 @@ jobs:
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
       - name: Pint (F-004 surface)
-        run: ./vendor/bin/pint --test app/Auth app/Http/Controllers/Api app/Http/Middleware/SetTenantContext.php app/Http/Requests/LoginRequest.php app/Models/User.php bootstrap/app.php routes/api.php tests/Feature/AuthTenantContextTest.php tests/Feature/SetTenantContextMiddlewareTest.php
+        run: ./vendor/bin/pint --test app/Auth app/Http/Controllers/Api app/Http/Middleware/SetTenantContext.php app/Http/Requests/LoginRequest.php app/Models/User.php bootstrap/app.php routes/api.php tests/Feature/AuthTenantContextTest.php tests/Feature/SetTenantContextMiddlewareTest.php tests/Feature/AuthTenantContextAdversarialTest.php
 
-      - name: Run F-004 auth + tenant middleware suite
+      - name: Run F-004 + R4 adversarial auth suite
         env:
           APP_ENV: testing
           APP_KEY: base64:2fl+KtvkdphvQyVfipTVTxZsaOaqE/NkzN1hZU0VZK0=
@@ -53,7 +53,7 @@ jobs:
           DB_PASSWORD: password
         run: |
           set -euo pipefail
-          OUTPUT=$(./vendor/bin/phpunit --filter 'AuthTenantContextTest|SetTenantContextMiddlewareTest' --testdox 2>&1)
+          OUTPUT=$(./vendor/bin/phpunit --filter 'AuthTenantContext(Test|AdversarialTest)|SetTenantContextMiddlewareTest' --testdox 2>&1)
           echo "$OUTPUT"
           echo "$OUTPUT" | grep -qi 'skipped' && { echo 'R4 FAIL: unexpected skipped tests'; exit 1; } || true
           echo "$OUTPUT" | grep -Eq 'OK|Tests: [1-9]' || { echo 'R4 FAIL: suite did not report OK'; exit 1; }

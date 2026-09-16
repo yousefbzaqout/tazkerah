@@ -29,7 +29,9 @@ final class AuthController
             ], 401);
         }
 
-        $user = User::query()->where('email', $identifier)->first();
+        $user = User::query()
+            ->whereRaw('lower(email) = ?', [strtolower(trim($identifier))])
+            ->first();
 
         if ($user === null) {
             return response()->json([

@@ -82,7 +82,30 @@ final class SetTenantContext
             }
         }
 
-        $bound = $membershipTenant ?? $abilityTenant;
+        // Authenticated principals: membership (users.tenant_id) is the only bind source.
+        // Never fall back to token tenant:{uuid} after membership is cleared (F004-R4-01).
+        // Ability may only corroborate membership when both are present.
+        if ($user !== null) {
+            if (
+                $membershipTenant !== null
+                && $abilityTenant !== null
+                && ! hash_equals($membershipTenant, $abilityTenant)
+            ) {
+                return [
+                    'tenant_id' => null,
+                    'error' => response()->json([
+                        'type' => 'https://tazkerah.com/errors/tenant-mismatch',
+                        'title' => 'Forbidden',
+                        'status' => 403,
+                        'detail' => 'Token tenant ability does not match membership.',
+                    ], 403),
+                ];
+            }
+
+            $bound = $membershipTenant;
+        } else {
+            $bound = null;
+        }
 
         if ($headerTenant !== null) {
             if ($bound !== null && ! hash_equals($bound, $headerTenant)) {

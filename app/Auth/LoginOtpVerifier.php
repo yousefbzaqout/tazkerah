@@ -2,6 +2,7 @@
 
 namespace App\Auth;
 
+use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -23,6 +24,21 @@ final class LoginOtpVerifier
     public function consume(string $identifier, string $otp): bool
     {
         $key = self::cacheKey($identifier);
+
+        try {
+            return (bool) Cache::lock($key.':lock', 5)->block(3, function () use ($key, $otp) {
+                return $this->consumeUnlocked($key, $otp);
+            });
+        } catch (LockTimeoutException) {
+            return false;
+        } catch (\Throwable) {
+            // Drivers without lock support (rare): fall back to unlocked consume.
+            return $this->consumeUnlocked($key, $otp);
+        }
+    }
+
+    private function consumeUnlocked(string $key, string $otp): bool
+    {
         $expected = Cache::get($key);
 
         if (! is_string($expected) || $expected === '' || ! hash_equals($expected, $otp)) {
