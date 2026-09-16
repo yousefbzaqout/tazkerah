@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Event;
 use App\Support\TenantContext;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -37,12 +39,13 @@ class TenantRlsIsolationTest extends TestCase
         $this->assertSame(0, DB::table('events')->count(), 'AC-016-01: events empty without tenant context');
         $this->assertSame(0, DB::table('seats')->count(), 'AC-016-01: seats empty without tenant context');
         $this->assertSame(0, DB::table('scan_logs')->count(), 'AC-016-01: scan_logs empty without tenant context');
+        $this->assertSame(0, Event::query()->count(), 'AC-016-01: Eloquent Global Scope fail-closed without tenant');
 
         DB::rollBack();
         TenantContext::resetRole();
     }
 
-    public function test_ac_016_02_organizer_a_cannot_see_organizer_b_events_seats_or_scan_logs(): void
+    public function test_ac_016_02_organizer_a_cannot_see_or_manipulate_organizer_b_resources(): void
     {
         $tenantA = $this->insertTenant('Organizer A');
         $tenantB = $this->insertTenant('Organizer B');
@@ -76,8 +79,49 @@ class TenantRlsIsolationTest extends TestCase
         $this->assertContains($logA, $logs);
         $this->assertNotContains($logB, $logs, 'AC-016-02: Organizer A must not see Organizer B scan logs');
 
-        $updated = DB::table('events')->where('id', $eventB)->update(['title' => 'Hacked']);
-        $this->assertSame(0, $updated, 'AC-016-02: Organizer A must not update Organizer B events');
+        $eloquentIds = Event::query()->pluck('id')->all();
+        $this->assertContains($eventA, $eloquentIds);
+        $this->assertNotContains($eventB, $eloquentIds, 'AC-016-02: Eloquent Global Scope hides Organizer B events');
+
+        $this->assertSame(
+            0,
+            DB::table('events')->where('id', $eventB)->update(['title' => 'Hacked']),
+            'AC-016-02: Organizer A must not update Organizer B events'
+        );
+        $this->assertSame(
+            0,
+            DB::table('seats')->where('id', $seatB['seat_id'])->update(['status' => 'SOLD']),
+            'AC-016-02: Organizer A must not update Organizer B seats'
+        );
+        $this->assertSame(
+            0,
+            DB::table('scan_logs')->where('id', $logB)->update(['result' => 'INVALID']),
+            'AC-016-02: Organizer A must not update Organizer B scan logs'
+        );
+
+        $this->assertSame(
+            0,
+            DB::table('seats')->where('id', $seatB['seat_id'])->delete(),
+            'AC-016-02: Organizer A must not delete Organizer B seats'
+        );
+        $this->assertSame(
+            0,
+            DB::table('scan_logs')->where('id', $logB)->delete(),
+            'AC-016-02: Organizer A must not delete Organizer B scan logs'
+        );
+
+        try {
+            DB::table('events')->insert([
+                'id' => (string) Str::uuid(),
+                'tenant_id' => $tenantB,
+                'title' => 'Injected into B',
+                'status' => 'DRAFT',
+                'created_at' => now(),
+            ]);
+            $this->fail('AC-016-02: cross-tenant INSERT must fail WITH CHECK');
+        } catch (QueryException $e) {
+            $this->assertTrue(true, 'AC-016-02: cross-tenant INSERT rejected by RLS WITH CHECK');
+        }
 
         DB::rollBack();
         TenantContext::resetRole();

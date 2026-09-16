@@ -160,6 +160,23 @@ return new class extends Migration
 
     public function down(): void
     {
+        $policies = [
+            'events' => 'tenant_isolation_events',
+            'sectors' => 'tenant_isolation_sectors',
+            'seats' => 'tenant_isolation_seats',
+            'tickets' => 'tenant_isolation_tickets',
+            'scan_logs' => 'tenant_isolation_scan_logs',
+            'event_policy_chunks' => 'tenant_isolation_policy_chunks',
+        ];
+
+        foreach ($policies as $table => $policy) {
+            if (Schema::hasTable($table)) {
+                DB::statement("DROP POLICY IF EXISTS {$policy} ON {$table}");
+                DB::statement("ALTER TABLE {$table} NO FORCE ROW LEVEL SECURITY");
+                DB::statement("ALTER TABLE {$table} DISABLE ROW LEVEL SECURITY");
+            }
+        }
+
         Schema::dropIfExists('event_policy_chunks');
         Schema::dropIfExists('scan_logs');
         Schema::dropIfExists('tickets');
@@ -167,11 +184,23 @@ return new class extends Migration
         Schema::dropIfExists('sectors');
         Schema::dropIfExists('events');
 
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['tenant_id']);
-            $table->dropColumn('tenant_id');
-        });
+        if (Schema::hasTable('users') && Schema::hasColumn('users', 'tenant_id')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropForeign(['tenant_id']);
+                $table->dropColumn('tenant_id');
+            });
+        }
 
         Schema::dropIfExists('tenants');
+
+        DB::statement('DO $$ BEGIN
+            IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = \'tazkerah_app\') THEN
+                REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA public FROM tazkerah_app;
+                REVOKE ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public FROM tazkerah_app;
+                REVOKE USAGE ON SCHEMA public FROM tazkerah_app;
+                DROP ROLE tazkerah_app;
+            END IF;
+        END $$');
+        // Do not DROP EXTENSION vector/uuid-ossp — may be shared by other objects.
     }
 };

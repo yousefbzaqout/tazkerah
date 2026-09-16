@@ -1,0 +1,50 @@
+name: F-001 RLS Isolation
+
+on:
+  push:
+    branches: [development, main, 'feature/F-001-*']
+  pull_request:
+    branches: [development, main]
+
+jobs:
+  tenant-rls:
+    runs-on: ubuntu-latest
+    services:
+      pgsql:
+        image: pgvector/pgvector:pg18
+        env:
+          POSTGRES_DB: testing
+          POSTGRES_USER: sail
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U sail -d testing"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_pgsql, pgsql
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Run F-001 RLS suite
+        env:
+          APP_ENV: testing
+          APP_KEY: base64:2fl+KtvkdphvQyVfipTVTxZsaOaqE/NkzN1hZU0VZK0=
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: testing
+          DB_USERNAME: sail
+          DB_PASSWORD: password
+        run: ./vendor/bin/phpunit --filter TenantRlsIsolationTest
