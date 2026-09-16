@@ -1,0 +1,59 @@
+name: F-004 Auth Tenant Context (R4)
+
+on:
+  push:
+    branches: [development, main, 'feature/F-004-*']
+  pull_request:
+    branches: [development, main]
+
+jobs:
+  auth-tenant-r4:
+    runs-on: ubuntu-latest
+    services:
+      pgsql:
+        image: pgvector/pgvector:pg18
+        env:
+          POSTGRES_DB: testing
+          POSTGRES_USER: sail
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U sail -d testing"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_pgsql, pgsql
+          coverage: none
+          tools: pint
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Pint (F-004 surface)
+        run: ./vendor/bin/pint --test app/Auth app/Http/Controllers/Api app/Http/Middleware/SetTenantContext.php app/Http/Requests/LoginRequest.php app/Models/User.php bootstrap/app.php routes/api.php tests/Feature/AuthTenantContextTest.php tests/Feature/SetTenantContextMiddlewareTest.php tests/Feature/AuthTenantContextAdversarialTest.php
+
+      - name: Run F-004 + R4 adversarial auth suite
+        env:
+          APP_ENV: testing
+          APP_KEY: base64:2fl+KtvkdphvQyVfipTVTxZsaOaqE/NkzN1hZU0VZK0=
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: testing
+          DB_USERNAME: sail
+          DB_PASSWORD: password
+        run: |
+          set -euo pipefail
+          OUTPUT=$(./vendor/bin/phpunit --filter 'AuthTenantContext(Test|AdversarialTest)|SetTenantContextMiddlewareTest' --testdox 2>&1)
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -qi 'skipped' && { echo 'R4 FAIL: unexpected skipped tests'; exit 1; } || true
+          echo "$OUTPUT" | grep -Eq 'OK|Tests: [1-9]' || { echo 'R4 FAIL: suite did not report OK'; exit 1; }
